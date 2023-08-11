@@ -40,21 +40,8 @@ public class Main {
 		isSelected = new boolean[chickenList.size()];
 		choice= new ArrayList<int[]>();
 		result = Integer.MAX_VALUE;
-		
-		if(M == chickenList.size()) { // 치킨집 수와 M이 같을 경우 굳이 조합 만들 필요 없음
-			int sum = 0;
-			for(int[] city: cityList) {
-				int min = Integer.MAX_VALUE;
-				for(int[] chicken: chickenList) {
-					int dist = Math.abs(city[0]-chicken[0]) + Math.abs(city[1] - chicken[1]);
-					min = Math.min(min, dist);
-				}
-				sum += min;
-			}
-			result = sum;
-		} else {
-			combi(0,0);
-		}
+
+		combi(0,0);
 		System.out.println(result);
 		
 		
