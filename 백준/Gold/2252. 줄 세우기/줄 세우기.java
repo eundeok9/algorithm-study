@@ -19,16 +19,16 @@ public class Main {
 		
 		int[] inDegree = new int[N+1]; // 진입 차수 배열
 		// 인접 리스트
-		ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer>[] graph = new ArrayList[N+1];
 		for(int i=0; i<N+1; i++) {
-			graph.add(new ArrayList<Integer>());
+			graph[i] = new ArrayList<Integer>();
 		}
 		
 		for(int i=0; i<M; i++) {
 			st = new StringTokenizer(br.readLine());
 			int from = Integer.parseInt(st.nextToken());
 			int to = Integer.parseInt(st.nextToken());
-			graph.get(from).add(to); // 인접 리스트 값 저장
+			graph[from].add(to); // 인접 리스트 값 저장
 			inDegree[to]++; // 진입 차수 값 저장
 		}
 		
@@ -46,10 +46,8 @@ public class Main {
 			
 			sb.append(next + " ");
 			
-			List<Integer> list = graph.get(next);
-			
-			for(int i=0; i < list.size(); i++) {
-				int temp = list.get(i); // 해당 학생 뒤에 서야하는 학생 정보
+			for(int i=0; i < graph[next].size(); i++) {
+				int temp = graph[next].get(i); // 해당 학생 뒤에 서야하는 학생 정보
 				inDegree[temp]--; // 진입 차수 감소
 				if(inDegree[temp] == 0) {
 					queue.offer(temp);
