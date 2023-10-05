@@ -5,21 +5,13 @@ from itertools import product
 from itertools import combinations
 
 
-col_list = [i for i in range(10)]
-# print(list(product(col_list, repeat=3)))
-
 
 # 중복 순열
-def perm(cnt):
+def perm():
     global minBricks
-    if cnt == n:
+    col_list = [i for i in range(w)]
+    for numbers in list(product(col_list, repeat=n)):
         minBricks = min(hit(numbers), minBricks)
-        return
-
-    for i in range(w):
-        numbers[cnt] = i
-        perm(cnt+1)
-        numbers[cnt] = 0
 
 
 # 벽돌 때리기
@@ -57,22 +49,11 @@ def hit(numbers):
                                 queue.append((nx, ny, bricks_copy[nx][ny]))
                                 bricks_copy[nx][ny] = 0
 
-                        # print(x, y, num)
-                        # for i in bricks_copy:
-                        #     print(i)
 
                 break
-                # 빈칸 채워주기.
+
         falling_bricks(bricks_copy)
-        # print(numbers, "번째", col)
-        # for i in bricks_copy:
-        #     print(i)
 
-
-    # print(numbers, "번째")
-    # # print(bricks_copy)
-    # for i in bricks_copy:
-    #     print(i)
     return count_bricks(bricks_copy)
 
 
@@ -126,7 +107,7 @@ for tc in range(1, t+1):
 
     # 중복 순열로 타격할 열 위치 구하고, 깨트린 벽돌 개수 구하기
     minBricks = 9999
-    perm(0)
+    perm()
 
     print("#{} {}".format(tc, minBricks))
 
