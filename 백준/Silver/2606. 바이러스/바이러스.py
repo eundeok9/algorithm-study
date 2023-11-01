@@ -1,23 +1,34 @@
-def dfs(v):
-    visited[v] = True
+from collections import deque
+import sys
+input = sys.stdin.readline
 
-    answer.append(v)
+def bfs():
+    cnt = 0
+    queue = deque()
+    queue.append(0)
+    visited[0] = True
 
-    for i in computers[v]:
-        if not visited[i]:
-            dfs(i)
+    while queue:
+        i = queue.popleft()
 
-answer = []
+        for j in graph[i]:
+            if visited[j]:
+                continue
+            visited[j] = True
+            queue.append(j)
+            cnt += 1
+    return cnt
+
 n = int(input()) # 컴퓨터 수
-m = int(input()) # 연결된 컴퓨터 쌍의 수
+m = int(input()) # 연결되어있는 컴퓨터 쌍의 수
 
-computers = [[] for _ in range(n+1)]
-visited = [False] * (n+1)
-
+graph = [[] for _ in range(n)]
+visited = [False for _ in range(n)]
 for _ in range(m):
-    a, b = list(map(int, input().split()))
-    computers[a].append(b)
-    computers[b].append(a)
+    a, b = map(int, input().split())
+    a -= 1
+    b -= 1
+    graph[a].append(b)
+    graph[b].append(a)
 
-dfs(1)
-print(len(answer)-1)
+print(bfs())
