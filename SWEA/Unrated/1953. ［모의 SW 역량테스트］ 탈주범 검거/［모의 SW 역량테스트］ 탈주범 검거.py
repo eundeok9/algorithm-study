@@ -27,16 +27,10 @@ def bfs():
     queue = deque()
     queue.append((r, c, graph[r][c]))
     visited[r][c] = 1
-    # graph[r][c] = -1 # 방문 처리
 
     while queue:
-        # for row in visited:
-        #     print(row)
 
-        # print(cnt)
         curR, curC, pipeNum = queue.popleft()
-        # print(curR, curC, visited[curR][curC])
-        # print("----")
         if visited[curR][curC]+1 > l:
             return
         pipeArr = pipes[pipeNum]
@@ -47,8 +41,6 @@ def bfs():
                 if graph[newR][newC] in possibleDir[dir]: # 이동 가능한 방향이라면
                     queue.append((newR, newC, graph[newR][newC])) # 큐에 넣기
                     visited[newR][newC] = visited[curR][curC] + 1 # 방문처리
-                    # graph[newR][newC] = -1 # 방문 처리
-                    # if visited[newR][newC] <= l:
                     cnt += 1 # 이동 가능한 위치 1 증가
 
 
