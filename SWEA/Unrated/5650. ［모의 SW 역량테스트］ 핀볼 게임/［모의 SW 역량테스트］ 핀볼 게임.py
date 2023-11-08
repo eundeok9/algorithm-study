@@ -6,11 +6,11 @@ def playball(r, c, d):
     originC = c
     originD = d
     while True:
-        if 0 <= r < n and 0 <= c < n and graph[r][c] == -1: # 블랙홀 만나면 핀볼게임 끝
-            break
-
         r += dx[d] # 현재 방향으로 1칸 이동
         c += dy[d]
+
+        if 0 <= r < n and 0 <= c < n and graph[r][c] == -1: # 블랙홀 만나면 핀볼게임 끝
+            break
         if originR == r and originC == c: # 시작 위치로 돌아오면 핀볼게임 끝
             break
 
@@ -24,14 +24,14 @@ def playball(r, c, d):
                 d = 3
             elif d == 3:
                 d = 2
-            score+=1 # 벽 만났을 때 점수 올려주자
+            score+=1
 
-        elif graph[r][c] in (1, 2, 3, 4, 5): #도형 만나는 경우, 도형 모양에 따른 방향 전환
+        elif 1 <= graph[r][c] <= 5: #도형 만나는 경우, 도형 모양에 따른 방향 전환
             num = graph[r][c] # 도형 숫자를 가져오자
-            d = switchedDir[num][d] # 새로운 방향으로 설정해주자
-            score += 1 # 도형 만났을 때 점수 올려주자
+            d = switchedDir[num][d] # 새로운 방향을 설정해주자
+            score += 1 # 벽 만났을 때 점수 올려주자
 
-        elif graph[r][c] in (6, 7, 8, 9, 10): #웜홀 만나는 경우
+        elif 6 <= graph[r][c] <= 10: #웜홀 만나는 경우
             num = graph[r][c] # 웜홀 숫자 가져와
             warmholeArr = warmhole[num] # 웜홀 정보 담은 배열에서 숫자에 해당하는 좌표쌍 꺼내와
             if (r,c) == warmholeArr[0]:
@@ -58,9 +58,8 @@ for tc in range(1, test_case + 1):
     for r in range(n):
         graph.append(list(map(int, input().split())))
         for c in range(n):
-            if graph[r][c] in (6, 7, 8, 9, 10):
+            if 6 <= graph[r][c] <= 10:
                 warmhole[graph[r][c]].append((r, c))
-
 
     maxScore = -1
     for r in range(n):
