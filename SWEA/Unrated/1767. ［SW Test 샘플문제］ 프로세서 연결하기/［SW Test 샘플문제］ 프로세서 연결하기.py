@@ -1,21 +1,20 @@
-# 최대한 많은 core에 연결했을 경우 전선 길이의 합을 구하기
-# 여러 방법이 있을 경우 전선 길이의 합이 최소가 되는 값 구하기
+test_case = int(input())
 
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-
-t = int(input())
-
-def connect(idx, cnt, length):
+def connect(depth, curCnt, curLength):
     global maxCnt, minLength
-    if idx == len(cell_list):
-        if cnt > maxCnt:
-            maxCnt = cnt
-            minLength = length
-        elif maxCnt == cnt:
-            minLength = min(minLength, length)
+
+    if depth == len(cores):
+        if curCnt > maxCnt:
+            minLength = curLength
+            maxCnt = curCnt
+        elif curCnt == maxCnt:
+            minLength = min(minLength, curLength)
         return
 
-    x, y = cell_list[idx]
+    x, y = cores[depth]
 
     for d in range(4):
         count = 0
@@ -26,57 +25,58 @@ def connect(idx, cnt, length):
             nx += dx[d]
             ny += dy[d]
 
-            if nx < 0 or nx >= n or ny < 0 or ny >= n: # 벽 만난 경우 아무 이상 없이 연결된 것
+            if nx < 0 or nx >= n or ny < 0 or ny >= n: # 범위 밖으로 나가는 경우 정상 연결 완료
                 break
-            if cell[nx][ny] == 1: # 전선 만난 경우 전선 길이 카운트했던 것 초기화
+
+            if board[nx][ny] == 1: # 다른 코어 or 전선 만난 경우 연결 실패
                 count = 0
                 break
 
             count += 1
 
-        originX = x
-        originY = y
-
-        for i in range(count):
-            originX += dx[d]
-            originY += dy[d]
-
-            cell[originX][originY] = 1
-
+        # 연결되지 못한 경우
+        # 다음 코어로 넘어가기 위해 depth만 1 올려주고 재귀 호출
         if count == 0:
-            connect(idx+1, cnt, length)
-
+            connect(depth + 1, curCnt, curLength)
+            
+        # 연결된 경우
+        # 다음 코어로 넘어가기, 현재까지 연결된 코어 개수, 전선 길이 갱신
         else:
-            connect(idx+1, cnt+1, length+count)
-
             originX = x
             originY = y
-
+            
+            # 일단 연결된 전선 표시해주고
             for _ in range(count):
                 originX += dx[d]
                 originY += dy[d]
+                board[originX][originY] = 1
+            
+            # 다음 코어 살피러 간다
+            connect(depth + 1, curCnt + 1, curLength + count)
+            
+            # 갔다 오면 현재 코어 연결했던 정보 날리기
+            for _ in range(count):
+                board[originX][originY] = 0
+                originX -= dx[d]
+                originY -= dy[d]
 
-                cell[originX][originY] = 0
 
-
-for tc in range(1, t+1):
+for tc in range(1, test_case+1):
     n = int(input())
 
-    cell = [list(map(int, input().split())) for _ in range(n)]
+    board = []
+    cores = []
 
-    cell_list = []
-
-    for i in range(n):
-        for j in range(n):
-            if i == 0 or i == n-1 or j == 0 or j == n-1:
+    for r in range(n):
+        board.append(list(map(int, input().split())))
+        for c in range(n):
+            if r == 0 or r== n-1 or c == 0 or c== n-1: # 벽에 있는 코어 빼고
                 continue
-            if cell[i][j] == 1:
-                cell_list.append((i,j)) # 셀의 위치를 리스트에 담음 (벽에 있는 셀 제외)
+            if board[r][c] == 1: # 코어 위치 저장하기
+                cores.append([r,c])
 
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
-    maxCnt = 0
-    minLength = 999
+    maxCnt = -1 # 최대 코어 개수
+    minLength = n * n # 최소 전선 길이
 
     connect(0, 0, 0)
 
