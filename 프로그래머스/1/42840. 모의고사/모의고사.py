@@ -5,17 +5,15 @@ def solution(answers):
     
     scores = [0, 0, 0]
     for i in range(len(answers)):
-        a = i % 5
-        b = i % 8
-        c = i % 10
         
-        if first[a] == answers[i]:
+        
+        if first[i % len(first)] == answers[i]:
             scores[0] += 1
         
-        if second[b] == answers[i]:
+        if second[i % len(second)] == answers[i]:
             scores[1] += 1
         
-        if third[c] == answers[i]:
+        if third[i % len(third)] == answers[i]:
             scores[2] += 1
     
     max_score = max(scores)
