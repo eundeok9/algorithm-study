@@ -1,32 +1,32 @@
+# 0.3초, 512mb
 import sys
 input = sys.stdin.readline
 
-textList = list(input().rstrip()) # 텍스트 입력 받기
+n = list(input().rstrip())
+m = int(input())
+
 popList = []
 
-n = int(input())
-line = [] # 명령어
-
-def move(inputLine):
-    if inputLine[0]=='L':
-        if textList:
-            popList.append(textList.pop())
-
-    elif inputLine[0] == 'D':
+def move(cmd):
+    if cmd[0] == 'L':
+        if n:
+            popList.append(n.pop())
+    
+    elif cmd[0] == 'D':
         if popList:
-            textList.append(popList.pop())
+            n.append(popList.pop())
+    
+    elif cmd[0] == 'P':
+        n.append(cmd[1])
+    
+    elif cmd[0] == 'B':
+        if n:
+            n.pop()
+            
 
-    elif inputLine[0] == 'P':
-        textList.append(inputLine[1])
+for _ in range(m):
+    cmd = list(map(str, input().rstrip().split()))
+    move(cmd)
 
-    elif inputLine[0] == 'B':
-        if textList:
-            textList.pop()
-
-
-for _ in range(n):
-    line = list(map(str, input().rstrip().split(" ")))
-    move(line)
-
-textList.extend(reversed(popList))
-print("".join(textList))
+n.extend(reversed(popList))
+print("".join(n))
