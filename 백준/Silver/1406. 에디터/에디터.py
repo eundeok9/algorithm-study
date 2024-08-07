@@ -7,7 +7,8 @@ m = int(input())
 
 popList = []
 
-def move(cmd):
+for _ in range(m):
+    cmd = list(map(str, input().rstrip().split()))
     if cmd[0] == 'L':
         if n:
             popList.append(n.pop())
@@ -22,11 +23,6 @@ def move(cmd):
     elif cmd[0] == 'B':
         if n:
             n.pop()
-            
-
-for _ in range(m):
-    cmd = list(map(str, input().rstrip().split()))
-    move(cmd)
 
 n.extend(reversed(popList))
 print("".join(n))
