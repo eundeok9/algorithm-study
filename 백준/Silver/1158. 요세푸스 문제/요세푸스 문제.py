@@ -1,22 +1,24 @@
+ # 2초, 256mb
 from collections import deque
 import sys
 input = sys.stdin.readline
 
-n, k = list(map(int, input().rstrip().split()))
+n, k = map(int, input().split())
 
 numbers = deque()
 for i in range(n):
     numbers.append(i+1)
 
-answer = []
+ans = []
 while numbers:
     for _ in range(k-1):
         numbers.append(numbers.popleft())
-    answer.append(numbers.popleft())
+    ans.append(numbers.popleft())
+
 
 print("<", end="")
-for i in range(len(answer)-1):
-    print(answer[i], end="")
+for i in range(len(ans)-1):
+    print(ans[i], end="")
     print(", ", end="")
-print(answer[len(answer)-1], end="")
+print(ans[len(ans)-1], end="")
 print(">")
