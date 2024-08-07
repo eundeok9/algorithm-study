@@ -9,20 +9,21 @@ for _ in range(t):
     popList = []
     line = list(input().rstrip())
     
-    for i in range(len(line)):
-        if line[i] == '<':
+    for i in line:
+        if i == '<':
             if pwd:
                 popList.append(pwd.pop())
         
-        elif line[i] == '>':
+        elif i == '>':
             if popList:
                 pwd.append(popList.pop())
         
-        elif line[i] == '-':
+        elif i == '-':
             if pwd:
                 pwd.pop()
+                
         else:
-            pwd.append(line[i])
+            pwd.append(i)
     
     pwd.extend(reversed(popList))
     print(''.join(pwd))
