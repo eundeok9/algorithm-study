@@ -1,14 +1,16 @@
+# 1초, 256mb
 import sys
 input = sys.stdin.readline
 
 k = int(input())
-stack = []
+arr = []
 
 for _ in range(k):
-    n = int(input())
-    if n == 0:
-        stack.pop()
+    num = int(input())
+    
+    if num == 0:
+        arr.pop()
     else:
-        stack.append(n)
+        arr.append(num)
 
-print(sum(stack))
+print(sum(arr))
