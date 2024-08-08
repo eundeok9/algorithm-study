@@ -1,37 +1,33 @@
+# 0.5초, 256mb
 import sys
 input = sys.stdin.readline
 
 n = int(input())
 stack = []
+
 for _ in range(n):
-    # print(stack)
-    num = 0
-    line = list(input().split())
-    word = line[0]
-
-    if len(line) == 2:
-        num = int(line[1])
-
-    if word == "push":
-        stack.append(num)
-
-    if word == "pop":
-        if len(stack) != 0:
+    cmd = input().split()
+    
+    if cmd[0] == 'push':
+        stack.append(cmd[1])
+    
+    elif cmd[0] == 'pop':
+        if stack:
             print(stack.pop())
         else:
             print(-1)
-
-    if word == "size":
+    
+    elif cmd[0] == 'size':
         print(len(stack))
-
-    if word == "empty":
-        if len(stack) == 0:
-            print(1)
-        else:
+    
+    elif cmd[0] == 'empty':
+        if stack:
             print(0)
-
-    if word == "top":
-        if len(stack) == 0:
-            print(-1)
         else:
-            print(stack[-1])
+            print(1)
+    
+    elif cmd[0] == 'top':
+        if stack:
+            print(stack[len(stack)-1])
+        else:
+            print(-1)
