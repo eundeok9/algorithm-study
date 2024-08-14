@@ -11,10 +11,6 @@ ans = []
 while numbers:
     for _ in range(k-1):
         numbers.append(numbers.popleft())
-    ans.append(numbers.popleft())
+    ans.append(str(numbers.popleft()))
     
-print('<', end='')
-for i in range(n-1):
-    print(ans[i], end=', ')
-print(ans[-1], end='')
-print('>')
+print("<", ", ".join(ans), ">", sep="")
