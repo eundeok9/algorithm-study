@@ -6,21 +6,20 @@ class Solution {
         
         HashMap<String, Integer> map = new HashMap<>();
         
-        for (String part: participant) {
-            map.put(part, map.getOrDefault(part, 0) + 1);
-        }
-        for(String com: completion) {
-            map.put(com, map.get(com)-1);
+        for(String p: participant) {
+            map.put(p, map.getOrDefault(p, 0) + 1);
         }
         
-        for (String key: map.keySet()) {
+        for(String c: completion) {
+            map.put(c, map.get(c)-1);
+        }
+        
+        for(String key: map.keySet()) {
             if(map.get(key) != 0) {
                 answer = key;
                 break;
             }
         }
-        
-        
         
         return answer;
     }
