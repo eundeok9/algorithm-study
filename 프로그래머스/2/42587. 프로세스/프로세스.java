@@ -3,11 +3,10 @@ import java.util.*;
 class Solution {
     public int solution(int[] priorities, int location) {
         int answer = 0;
-        
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         
-        for(int num: priorities) {
-            pq.add(num);
+        for(int i=0; i<priorities.length; i++) {
+            pq.add(priorities[i]);
         }
         
         while(!pq.isEmpty()) {
@@ -15,12 +14,13 @@ class Solution {
                 if(priorities[i] == pq.peek()) {
                     pq.poll();
                     answer++;
-                    if(i==location) {
+                    if(location == i) {
                         return answer;
                     }
                 }
             }
         }
+        
         
         return answer;
     }
