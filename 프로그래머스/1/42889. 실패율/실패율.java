@@ -2,29 +2,28 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int N, int[] stages) {
-        
-        HashMap<Integer, Double> map = new HashMap<>();
-        int[] userFailCnts = new int[N+2];
-        int[] userTotalCnts = new int[N+1];
+        int[] failCnt = new int[N+2];
+        int[] totalCnt = new int[N+1];
         
         for(int stage: stages) {
-            userFailCnts[stage]++;
+            failCnt[stage] += 1;
         }
         
-        userTotalCnts[N] = userFailCnts[N] + userFailCnts[N+1];
-        for(int i=N-1; i>=1; i--) {
-            userTotalCnts[i] = userFailCnts[i] + userTotalCnts[i+1];
+        totalCnt[N] = failCnt[N+1] + failCnt[N];
+        for(int i=N-1; i>0; i--) {
+            totalCnt[i] = failCnt[i] + totalCnt[i+1];
         }
         
-        for(int i=1; i<userTotalCnts.length; i++) {
-            if(userFailCnts[i] == 0 || userTotalCnts[i] == 0) {
+        HashMap<Integer, Double> map = new HashMap<>();
+        for(int i=1; i<totalCnt.length; i++) {
+            if(totalCnt[i] == 0 || failCnt[i] == 0) {
                 map.put(i, 0.0);
             } else {
-                map.put(i, (double)userFailCnts[i] / userTotalCnts[i]);
+                map.put(i, (double)failCnt[i] / totalCnt[i]);
             }
         }
         
-        List<Integer> list = new ArrayList<>(map.keySet());
+        ArrayList<Integer> list = new ArrayList<>(map.keySet());
         Collections.sort(list, (o1, o2) -> Double.compare(map.get(o2), map.get(o1)));
         
         return list.stream().mapToInt(Integer::intValue).toArray();
