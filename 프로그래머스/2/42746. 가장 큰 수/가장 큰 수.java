@@ -1,13 +1,14 @@
 import java.util.*;
 
 class Solution {
-    public String solution(int[] numbers) {    
-       StringBuilder answer = new StringBuilder();
-        
+    public String solution(int[] numbers) {
         String[] arr = new String[numbers.length];
+        
         for(int i=0; i<arr.length; i++) {
             arr[i] = String.valueOf(numbers[i]);
         }
+        
+        
         
         Arrays.sort(arr, (o1, o2) -> (o2+o1).compareTo(o1+o2));
         
@@ -15,9 +16,9 @@ class Solution {
             return "0";
         }
         
-        
-        for(int i=0; i<arr.length; i++) {
-            answer.append(arr[i]);
+        StringBuilder answer = new StringBuilder();
+        for(String s: arr) {
+            answer.append(s);
         }
         
         return answer.toString();
