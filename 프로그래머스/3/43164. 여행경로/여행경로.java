@@ -2,15 +2,13 @@ import java.util.*;
 
 class Solution {
     static boolean[] visited;
-    static ArrayList<String> allRoute;
+    ArrayList<String> allRoute = new ArrayList<>();
     
     public String[] solution(String[][] tickets) {
         String[] answer = {};
-        int cnt = 0;
         visited = new boolean[tickets.length];
-        allRoute = new ArrayList<>();
         
-        dfs("ICN", "ICN", tickets, cnt);
+        dfs("ICN", "ICN", 0, tickets); // 출발 공항, 거쳐온 경로, 거쳐온 공항 수, 항공권 정보
         
         Collections.sort(allRoute);
         answer = allRoute.get(0).split(" ");
@@ -18,7 +16,7 @@ class Solution {
         return answer;
     }
     
-    public void dfs(String start, String route, String[][] tickets, int cnt) {
+    public void dfs(String start, String route, int cnt, String[][] tickets) {
         if(cnt == tickets.length) {
             allRoute.add(route);
             return;
@@ -27,7 +25,7 @@ class Solution {
         for(int i=0; i<tickets.length; i++) {
             if(start.equals(tickets[i][0]) && !visited[i]) {
                 visited[i] = true;
-                dfs(tickets[i][1], route + " " + tickets[i][1], tickets, cnt+1);
+                dfs(tickets[i][1], route + " " + tickets[i][1], cnt + 1, tickets);
                 visited[i] = false;
             }
         }
