@@ -7,4 +7,4 @@ where a.fish_type = b.fish_type and a.fish_type in (
     group by fish_type
     having length = max(length)
 )
-order by id
+order by id;
