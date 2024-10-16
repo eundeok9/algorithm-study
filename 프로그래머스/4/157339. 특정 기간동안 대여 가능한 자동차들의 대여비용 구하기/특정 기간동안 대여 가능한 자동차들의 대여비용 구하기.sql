@@ -1,13 +1,16 @@
-SELECT C.CAR_ID, C.CAR_TYPE, ROUND((C.DAILY_FEE * (1-P.DISCOUNT_RATE/100)) * 30 ) AS FEE
-FROM CAR_RENTAL_COMPANY_CAR AS C, CAR_RENTAL_COMPANY_RENTAL_HISTORY AS H, CAR_RENTAL_COMPANY_DISCOUNT_PLAN AS P
-WHERE C.CAR_TYPE IN ('세단', 'SUV')
-AND P.DURATION_TYPE='30일 이상'
-AND P.CAR_TYPE = C.CAR_TYPE AND C.CAR_ID = H.CAR_ID
-AND C.CAR_ID NOT IN (
-    SELECT CAR_ID
-    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
-    WHERE END_DATE > '2022-11-01' AND START_DATE < '2022-12-01'
+-- 코드를 입력하세요
+SELECT a.car_id, a.car_type, round((a.daily_fee * (1 - c.discount_rate / 100)) * 30) as fee
+from CAR_RENTAL_COMPANY_CAR as a, CAR_RENTAL_COMPANY_RENTAL_HISTORY as b, CAR_RENTAL_COMPANY_DISCOUNT_PLAN as c
+where a.car_id = b.car_id
+and a.car_type in ('세단', 'SUV')
+and c.duration_type like '30일 이상'
+and a.car_type = c.car_type
+and b.car_id not in (
+    select car_id from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    where end_date > '2022-11-01' and start_date < '2022-12-01'
 )
-GROUP BY CAR_ID
-HAVING FEE BETWEEN 500000 AND 1999999
-ORDER BY FEE DESC, CAR_TYPE, CAR_ID DESC
+group by car_id
+having fee between 500000 and 1999999
+order by fee desc, car_type, car_id
+
+
