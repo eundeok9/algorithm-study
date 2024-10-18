@@ -5,11 +5,10 @@ class Solution {
         for(int i=0; i<diffs.length; i++) {
             end = Math.max(end, diffs[i]);
         }
-    
         
         while(start < end) {
             int mid = (start + end) / 2;
-            long time = 0;
+            long time = 0; // int의 범위를 넘을 수 있기 때문에 long으로 선언해야함
             
             for(int i=0; i<diffs.length; i++) {
                 int diff = diffs[i];
