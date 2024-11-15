@@ -11,14 +11,13 @@ class Solution {
             
             for(int win_num: win_nums) {
                 if(num == win_num) {
-                    answer[0]++;
                     answer[1]++;
                 }
             }
             
         }
         
-        answer[0] = rank[answer[0]];
+        answer[0] = rank[answer[0] + answer[1]];
         answer[1] = rank[answer[1]];
         
         return answer;
