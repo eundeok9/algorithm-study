@@ -1,6 +1,5 @@
 class Solution {
     public int[] solution(String[] wallpaper) {
-        int[] answer = new int[4];
         int lux = 50;
         int luy = 50;
         int rdx = 0;
@@ -17,10 +16,7 @@ class Solution {
             }
         }
         
-        answer[0] = lux;
-        answer[1] = luy;
-        answer[2] = rdx;
-        answer[3] = rdy;
+        int[] answer = {lux, luy, rdx, rdy};
         
         return answer;
     }
