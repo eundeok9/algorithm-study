@@ -1,10 +1,10 @@
 class Solution {
     public String solution(String video_len, String pos, String op_start, String op_end, String[] commands) {
         String answer = "";
-        int videoTime = Integer.parseInt(video_len.split(":")[0]) * 60 + Integer.parseInt(video_len.split(":")[1]);
-        int curTime = Integer.parseInt(pos.split(":")[0]) * 60 + Integer.parseInt(pos.split(":")[1]);
-        int opStartTime = Integer.parseInt(op_start.split(":")[0]) * 60 + Integer.parseInt(op_start.split(":")[1]);
-        int opEndTime = Integer.parseInt(op_end.split(":")[0]) * 60 + Integer.parseInt(op_end.split(":")[1]);
+        int videoTime = convertTime(video_len);
+        int curTime = convertTime(pos);
+        int opStartTime = convertTime(op_start);
+        int opEndTime = convertTime(op_end);
         
         if(opStartTime <= curTime && curTime <= opEndTime) {
             curTime = opEndTime;
@@ -28,7 +28,6 @@ class Solution {
             if(opStartTime <= curTime && curTime <= opEndTime) {
                 curTime = opEndTime;
             }
-            // System.out.println(curTime);
         }
         
         String min = curTime / 60 < 10 ? "0" + String.valueOf(curTime/60) : String.valueOf(curTime/60);
@@ -36,5 +35,9 @@ class Solution {
         answer = min + ":" + sec;
         
         return answer;
+    }
+    
+    static public int convertTime(String s) {
+        return Integer.parseInt(s.split(":")[0]) * 60 + Integer.parseInt(s.split(":")[1]);
     }
 }
