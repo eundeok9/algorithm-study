@@ -10,6 +10,8 @@ public class Main {
 
     static int length;
     static int[][] map;
+    
+    static StringBuilder sb = new StringBuilder();
 
     public static class Node {
         int x, y;
@@ -35,7 +37,8 @@ public class Main {
             int endY = Integer.parseInt(st.nextToken());
 
             if(startX == endX && startY == endY) {
-                System.out.println(0);
+//                System.out.println(0);
+                sb.append(0).append("\n");
                 continue;
             }
             
@@ -57,9 +60,10 @@ public class Main {
                     queue.add(new Node(nx, ny));
                 }
             }
-            System.out.println(map[endX][endY]);
+//            System.out.println(map[endX][endY]);
+            sb.append(map[endX][endY]).append("\n");
         }
-
+        System.out.println(sb);
     }
 
     public static boolean check(int x, int y) {
