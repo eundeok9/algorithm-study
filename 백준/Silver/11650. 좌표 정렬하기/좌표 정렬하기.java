@@ -2,30 +2,44 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    public static class Point implements Comparable<Point> {
+        int x, y;
+
+        Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public int compareTo(Point o) {
+            if(this.x == o.x) {
+                return Integer.compare(this.y, o.y);
+            }
+
+            return Integer.compare(this.x, o.x);
+        }
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         int N = Integer.parseInt(br.readLine());
+        List<Point> points = new ArrayList<>();
 
-        int[][] arr = new int[N][2];
         for(int i=0; i<N; i++) {
             st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
-            arr[i][0] = x;
-            arr[i][1] = y;
+            points.add(new Point(x, y));
         }
 
-        Arrays.sort(arr, (a, b) -> {
-            if(a[0] == b[0]) {
-                return Integer.compare(a[1], b[1]);
-            }
-            return Integer.compare(a[0], b[0]);
-        });
+        Collections.sort(points);
 
-        for(int i=0; i<N; i++) {
-            System.out.println(arr[i][0] + " " + arr[i][1]);
+        StringBuilder sb = new StringBuilder();
+        for(Point p: points) {
+            sb.append(p.x).append(" ").append(p.y).append("\n");
         }
+
+        System.out.println(sb);
     }
 }
