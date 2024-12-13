@@ -8,17 +8,14 @@ class Solution {
         
         while(start < end) {
             int mid = (start + end) / 2;
-            long time = 0; // int의 범위를 넘을 수 있기 때문에 long으로 선언해야함
             
+            long time = 0;
             for(int i=0; i<diffs.length; i++) {
-                int diff = diffs[i];
-                int time_cur = times[i];
-                
-                if (diff<=mid) {
-                    time += time_cur;
+                if(mid >= diffs[i]) {
+                    time += times[i];
                 } else {
                     int time_prev = i == 0 ? 0 : times[i-1];
-                    time += (diff - mid) * (time_cur + time_prev) + time_cur;
+                    time += (diffs[i] - mid) * (time_prev + times[i]) + times[i];
                 }
             }
             
@@ -27,7 +24,9 @@ class Solution {
             } else {
                 start = mid + 1;
             }
+            
         }
+        
         return end;
     }
 }
