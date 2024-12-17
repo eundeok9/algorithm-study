@@ -10,24 +10,23 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        HashMap<String, Boolean> map = new HashMap<>();
+        HashSet<String> set = new HashSet<>();
         for(int i=0; i<N; i++) {
             st = new StringTokenizer(br.readLine());
             String name = st.nextToken();
             String cmd = st.nextToken();
-            if(cmd.equals("enter")) {
-                map.put(name, true);
+            if(set.contains(name)) {
+                set.remove(name);
             } else {
-                map.put(name, false);
+                set.add(name);
             }
         }
-        List<String> list = new ArrayList<>(map.keySet());
+        
+        List<String> list = new ArrayList<>(set);
         list.sort(Collections.reverseOrder());
         StringBuilder sb = new StringBuilder();
         for(String name: list) {
-            if(map.get(name)) {
-                sb.append(name).append("\n");
-            }
+            sb.append(name).append("\n");
         }
         System.out.println(sb);
     }
