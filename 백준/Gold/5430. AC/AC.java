@@ -1,59 +1,54 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
 
 public class Main {
+    static ArrayDeque<String> deque;
     static StringBuilder sb = new StringBuilder();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-
 
         int T = Integer.parseInt(br.readLine());
-        for(int t=0; t<T; t++) {
-            String command = br.readLine();
-            int N = Integer.parseInt(br.readLine());
-
-            st = new StringTokenizer(br.readLine(), "[],");
-            Deque<Integer> deque = new ArrayDeque<>();
-
-            for(int i=0; i<N; i++) {
-                deque.add(Integer.parseInt(st.nextToken()));
+        while(T-->0) {
+            // 입력값 처리
+            String cmd = br.readLine();
+            int n = Integer.parseInt(br.readLine());
+            String s = br.readLine();
+            String[] sarr = s.substring(1, s.length() - 1).split(",");
+            deque = new ArrayDeque<>();
+            for(int i=0; i<n; i++) {
+                deque.add(sarr[i]);
             }
 
-            AC(command, deque);
-
+            // AC 실행
+            AC(cmd);
         }
         System.out.println(sb);
     }
 
-    public static void AC(String command, Deque<Integer> deque) {
-        boolean isRight = false;
+    public static void AC(String cmd) {
+        boolean isReverse = false;
 
-        for(char cmd: command.toCharArray()) {
-            if(cmd == 'R') {
-                isRight = !isRight;
-            } else {
+        for(char c: cmd.toCharArray()) {
+            if(c == 'R') isReverse = !isReverse;
+
+            else {
                 if(deque.isEmpty()) {
                     sb.append("error\n");
                     return;
-                } else {
-                    if(isRight) {
-                        deque.removeLast();
-                    } else {
-                        deque.removeFirst();
-                    }
                 }
+                if(isReverse) deque.removeLast();
+                else deque.removeFirst();
             }
         }
-
         sb.append("[");
-        if(!deque.isEmpty()) {
-            int size = deque.size();
-            for (int i = 0; i < size - 1; i++) {
-                sb.append(isRight ? deque.removeLast() : deque.removeFirst()).append(",");
-            }
+        int size = deque.size();
+        for(int i=0; i<size-1; i++) {
+            sb.append(isReverse ? deque.removeLast() : deque.removeFirst()).append(",");
+        }
+        if(size > 0) {
             sb.append(deque.remove());
         }
         sb.append("]\n");
