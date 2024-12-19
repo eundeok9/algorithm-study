@@ -11,16 +11,12 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-        K = Math.min(N - K, K);
-        int init1 = 1;
-        int init2 = 1;
-        while(K > 0) {
-            init1 *= N;
-            N--;
-            init2 *= K;
-            K--;
+        int[] dp = new int[N+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for(int i=2; i<=N; i++) {
+            dp[i] = dp[i-1] * i;
         }
-        System.out.println(init1 / init2);
-
+        System.out.println(dp[N] /(dp[K] * dp[N-K]));
     }
 }
