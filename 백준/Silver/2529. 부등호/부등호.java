@@ -5,7 +5,7 @@ public class Main {
     static int K;
     static String[] sarr;
     static boolean[] visited = new boolean[10];
-    static HashSet<String> answer = new HashSet<>();
+    static String max = "", min = "";
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,37 +19,27 @@ public class Main {
 
         backTracking(0, "");
 
-        List<String> list = new ArrayList<>(answer);
-        Collections.sort(list);
-
-        System.out.println(list.get(list.size()-1));
-        System.out.println(list.get(0));
+        System.out.println(max);
+        System.out.println(min);
     }
 
     public static void backTracking(int depth, String str) {
         if(depth == K+1) {
-            boolean flag = true;
-            for(int i=0; i<K; i++) {
-                String s = sarr[i];
-                if(s.equals("<")) {
-                    if(str.charAt(i) >= str.charAt(i+1)) {
-                        flag = false;
-                        break;
-                    }
-                } else {
-                    if(str.charAt(i) <= str.charAt(i+1)) {
-                        flag = false;
-                        break;
-                    }
-                }
+            if(min.isEmpty() || str.compareTo(min) < 0) {
+                min = str;
             }
-            if(flag) {
-                answer.add(str);
+            if(max.isEmpty() || str.compareTo(max) > 0) {
+                max = str;
             }
             return;
         }
         for(int i=0; i<=9 ;i++) {
             if(!visited[i]) {
+                if(depth > 0) {
+                    int prev = str.charAt(depth - 1) - '0';
+                    if(sarr[depth-1].equals("<") && prev >= i) continue;
+                    if(sarr[depth-1].equals(">") && prev <= i) continue;
+                }
                 visited[i] = true;
                 backTracking(depth + 1, str + i);
                 visited[i] = false;
