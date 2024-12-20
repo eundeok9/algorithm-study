@@ -41,13 +41,19 @@ public class Main {
 
             if(cur == K) return;
 
-            for(int i: new int[] {cur*2, cur-1, cur + 1}) {
-                if(i < 0 || i > 100000) continue;
+            for(int i=0; i<3; i++) {
+                int next;
+                
+                if(i == 0) next = cur * 2;
+                else if(i == 2) next = cur + 1;
+                else next = cur - 1;
+//            for(int i: new int[] {cur*2, cur-1, cur + 1}) { // 메모리 사용량 높을지도?
+                if(next < 0 || next > 100000) continue;
 
-                if(time[i] == 0) {
-                    queue.add(i);
-                    time[i] = time[cur] + 1;
-                    parent[i] = cur;
+                if(time[next] == 0) {
+                    queue.add(next);
+                    time[next] = time[cur] + 1;
+                    parent[next] = cur;
                 }
             }
         }
