@@ -24,6 +24,8 @@ public class Main {
                 minDiff = Math.abs(sum);
                 answer[0] = nums[left];
                 answer[1] = nums[right];
+                
+                if(sum == 0) break;
             }
 
             if(sum < 0) {
