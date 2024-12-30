@@ -1,33 +1,47 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.StringTokenizer;
-
+import java.util.*;
 public class Main {
+    static int N;
+    static int[] lis, arr;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+        lis = new int[N];
+        arr = new int[N];
 
-        int[] arr = new int[N];
-        int[] dp = new int[N];
-        st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=0; i<N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.fill(dp, 1);
-
-        int minLIS = 1;
+        int len = 1;
+        lis[0] = arr[0];
         for(int i=1; i<N; i++) {
-            for(int j=0; j<i; j++) {
-                if(arr[i] < arr[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+            if(lis[len-1] > arr[i]) {
+                lis[len++] = arr[i];
+            } else {
+                int idx = binarySearch(0, len-1, arr[i]);
+                lis[idx] = arr[i];
             }
-            minLIS = Math.max(minLIS, dp[i]);
+        }
+        
+        System.out.println(len);
+    }
+
+    public static int binarySearch(int left, int right, int target) {
+        int mid;
+
+        while(left < right) {
+            mid = (left + right) / 2;
+
+            if(lis[mid] > target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
         }
 
-        System.out.println(minLIS);
+        return right;
     }
 }
