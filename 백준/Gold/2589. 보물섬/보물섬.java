@@ -9,6 +9,10 @@ public class Main {
     static int answer = Integer.MIN_VALUE;
     public static void main(String[] args) throws IOException {
         init();
+        solve();
+    }
+    
+    public static void solve() {
         for(int i=0; i<N; i++) {
             for(int j=0; j<M; j++) {
                 if(map[i][j] == 'L') {
