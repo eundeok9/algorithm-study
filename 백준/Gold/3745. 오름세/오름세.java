@@ -4,12 +4,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
+
         String input = null;
         while((input = br.readLine()) != null) {
             int N = Integer.parseInt(input.trim());
-            int[] arr = new int[N];
+
             st = new StringTokenizer(br.readLine());
+            int[] arr = new int[N];
             for(int i=0; i<N; i++) {
                 arr[i] = Integer.parseInt(st.nextToken());
             }
@@ -41,6 +42,7 @@ public class Main {
                 right = mid;
             }
         }
+
         return right;
     }
 }
