@@ -17,7 +17,7 @@ public class Main {
         for(int i=1; i<s.length(); i++) {
             if(s.charAt(i) != ch) {
                 ch = s.charAt(i);
-                if(s.charAt(i) == '1') one++;
+                if(ch == '1') one++;
                 else zero++;
             }
         }
