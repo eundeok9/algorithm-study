@@ -33,7 +33,6 @@ public class Main {
                 idx[len++] = i;
             } else {
                 int index = search(0, len-1, line.get(i)[1], lis);
-                if(index < 0) index = -(index + 1);
                 lis[index] = line.get(i)[1];
                 idx[index] = i;
                 if(index > 0) trace[i] = idx[index - 1];
