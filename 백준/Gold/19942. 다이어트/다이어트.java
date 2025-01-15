@@ -27,15 +27,16 @@ public class Main {
                 gradient[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-
+        
         backTracking(0, 0, 0, 0, 0, 0, new ArrayList<>());
-        if(minPrice == Integer.MAX_VALUE) {
+       
+        if(answer.isEmpty()) {
             System.out.println(-1);
-            return;
-        }
-        System.out.println(minPrice);
-        for(int i: answer) {
-            System.out.print((i+1) + " ");
+        } else {
+            System.out.println(minPrice);
+            for (int i : answer) {
+                System.out.print(i + " ");
+            }
         }
     }
 
@@ -50,7 +51,7 @@ public class Main {
 
         for(int i=start; i<N; i++) {
             int[] cur = gradient[i];
-            list.add(i);
+            list.add(i+1);
             backTracking(i+1, p + cur[0], f + cur[1], s + cur[2], v + cur[3], price + cur[4], list);
             list.remove(list.size() - 1);
         }
