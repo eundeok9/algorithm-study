@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.*;
 public class Main {
     static List<List<Integer>> graph;
+    static int delNode;
     static int answer = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,15 +26,15 @@ public class Main {
             }
         }
 
-        int delNode = Integer.parseInt(br.readLine());
+        delNode = Integer.parseInt(br.readLine());
         if(delNode != root) {
-            dfs(root, delNode);
+            dfs(root);
         }
 
         System.out.println(answer);
     }
 
-    public static void dfs(int current, int delNode) {
+    public static void dfs(int current) {
         if(current == delNode) {
             return; // 삭제된 노드는 탐색X
         }
@@ -42,7 +43,7 @@ public class Main {
         for(int child: graph.get(current)) {
             if(child != delNode) {
                 isLeaf = false;
-                dfs(child, delNode);
+                dfs(child);
             }
         }
 
