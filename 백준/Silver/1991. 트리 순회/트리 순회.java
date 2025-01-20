@@ -1,21 +1,20 @@
 import java.io.*;
 import java.util.*;
 public class Main {
+    static StringBuilder sb = new StringBuilder();
+    static Map<Character, Node> tree = new HashMap<>();
+
     public static class Node {
         char value;
         Node left;
         Node right;
-
         Node(char value) {
             this.value = value;
         }
     }
-    static Map<Character, Node> tree = new HashMap<>();
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
 
@@ -38,32 +37,32 @@ public class Main {
             }
         }
 
-        preOrder(tree.get('A'), sb);
+        preOrder(tree.get('A'));
         sb.append("\n");
-        inOrder(tree.get('A'), sb);
+        inOrder(tree.get('A'));
         sb.append("\n");
-        postOrder(tree.get('A'), sb);
+        postOrder(tree.get('A'));
         System.out.println(sb);
     }
 
-    static void preOrder(Node node, StringBuilder sb) {
-        if (node == null) return;
-        sb.append(node.value); // 루트
-        preOrder(node.left, sb); // 왼쪽
-        preOrder(node.right, sb); // 오른쪽
+    public static void preOrder(Node node) {
+        if(node == null) return;
+        sb.append(node.value);
+        preOrder(node.left);
+        preOrder(node.right);
     }
 
-    static void inOrder(Node node, StringBuilder sb) {
+    public static void inOrder(Node node) {
         if(node == null) return;
-        inOrder(node.left, sb); // 왼쪽
-        sb.append(node.value); // 루트
-        inOrder(node.right, sb); // 오른쪽
+        inOrder(node.left);
+        sb.append(node.value);
+        inOrder(node.right);
     }
 
-    static void postOrder(Node node, StringBuilder sb) {
+    public static void postOrder(Node node) {
         if(node == null) return;
-        postOrder(node.left, sb); // 왼쪽
-        postOrder(node.right, sb); // 오른쪽
-        sb.append(node.value); // 루트
+        postOrder(node.left);
+        postOrder(node.right);
+        sb.append(node.value);
     }
 }
