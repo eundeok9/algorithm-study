@@ -11,6 +11,7 @@ public class Main {
         StringTokenizer st;
 
         N = Integer.parseInt(br.readLine());
+
         map = new int[N][N];
         dp = new int[N][N];
         for(int i=0; i<N; i++) {
@@ -26,29 +27,30 @@ public class Main {
                 answer = Math.max(answer, dfs(i, j));
             }
         }
-
         System.out.println(answer);
     }
 
     public static int dfs(int x, int y) {
-        // 이미 계산된 값이 있다면 반환
         if(dp[x][y] != 0) {
             return dp[x][y];
         }
 
-        // 초기값
         dp[x][y] = 1;
-
         for(int d=0; d<4; d++) {
             int nx = x + dx[d];
             int ny = y + dy[d];
-            if(0 <= nx && nx < N && 0 <= ny && ny < N) {
-                if(map[x][y] < map[nx][ny]) {
-                    dp[x][y] = Math.max(dp[x][y], dfs(nx, ny) + 1);
-                }
+
+            if(!check(nx, ny)) continue;
+            if(map[x][y] < map[nx][ny]) {
+                dp[x][y] = Math.max(dp[x][y], dfs(nx, ny) + 1);
             }
         }
 
+
         return dp[x][y];
+    }
+
+    public static boolean check(int x, int y) {
+        return 0<= x && x < N && 0 <= y && y < N;
     }
 }
