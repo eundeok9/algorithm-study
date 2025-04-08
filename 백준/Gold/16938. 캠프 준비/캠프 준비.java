@@ -20,25 +20,20 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        backTracking(0, 0);
+        backTracking(0, 0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
         System.out.println(answer);
     }
 
-    public static void backTracking(int start, int sum) {
-        if(L <= sum && sum <=R && check()) {
-            answer++;
+    public static void backTracking(int start, int cnt, int sum, int max, int min) {
+        if(cnt >= 2) {
+            if (L <= sum && sum <= R && max - min >= X) {
+                answer++;
+            }
         }
 
         for(int i=start; i<N; i++) {
-            list.add(arr[i]);
-            backTracking(i+1, sum+arr[i]);
-            list.remove(list.indexOf(arr[i]));
+            backTracking(i+1, cnt+1, sum+arr[i], Math.max(max, arr[i]), Math.min(min, arr[i]));
         }
-    }
-
-    public static boolean check() {
-        Collections.sort(list);
-        return list.get(list.size() - 1) - list.get(0) >= X;
     }
 }
