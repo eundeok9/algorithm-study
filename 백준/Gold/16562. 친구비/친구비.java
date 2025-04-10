@@ -1,75 +1,68 @@
 import java.io.*;
 import java.util.*;
 public class Main {
-    static int N, M, K;
-    static int[] money;
-    static boolean[] visited;
-    static List<List<Integer>> graph;
+    static int[] parent;
+    static int[] cost;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
-        money = new int[N];
-        visited = new boolean[N];
-        graph = new ArrayList<>();
+        parent = new int[N+1];
+        cost = new int[N+1];
 
-        for(int i=0; i<N; i++) {
-            graph.add(new ArrayList<>());
-        }
+        // 자기 자신을 부모로 초기화
+        for(int i=1; i<=N; i++) parent[i] = i;
 
+        // 친구비 입력
         st = new StringTokenizer(br.readLine());
-        for(int i=0; i<N; i++) {
-            money[i] = Integer.parseInt(st.nextToken());
+        for(int i=1; i<=N; i++) {
+            cost[i] = Integer.parseInt(st.nextToken());
         }
 
+        // 친구 관계 처리
         for(int i=0; i<M; i++) {
             st = new StringTokenizer(br.readLine());
-            int u = Integer.parseInt(st.nextToken()) - 1;
-            int v = Integer.parseInt(st.nextToken()) - 1;
-
-            graph.get(u).add(v);
-            graph.get(v).add(u);
+            int v = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+            union(v, w);
         }
 
-        int sum = 0;
-        for(int i=0; i<N; i++) {
-            if(!visited[i]) {
-                sum += bfs(i);
-            }
-            if(sum > K) {
-                System.out.println("Oh no");
-                return;
+        int[] minCost = new int[N+1];
+        Arrays.fill(minCost, Integer.MAX_VALUE);
+
+        for(int i=1; i<=N; i++) {
+            int root = find(i);
+            minCost[root] = Math.min(minCost[root], cost[i]);
+        }
+
+        int total = 0;
+        for(int i=1; i<=N; i++) {
+            if(parent[i] == i) {
+                total += minCost[i];
             }
         }
 
-        System.out.println(sum);
+        if (total > K) System.out.println("Oh no");
+        else System.out.println(total);
     }
 
-    public static int bfs(int start) {
-        int min = Integer.MAX_VALUE;
+    // 경로 압축을 포함한 find
+    static int find(int x) {
+        if(parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
 
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
-        visited[start] = true;
-
-        while(!queue.isEmpty()) {
-            int cur = queue.poll();
-
-            min = Math.min(money[cur], min);
-
-            for(int nxt: graph.get(cur)) {
-                if(!visited[nxt]) {
-                    visited[nxt] = true;
-                    queue.add(nxt);
-                }
-            }
+    // 친구 그룹 통합
+    static void union(int a, int b) {
+        int pa = find(a);
+        int pb = find(b);
+        if(pa != pb) {
+            parent[pb] = pa;
         }
-
-        return min;
     }
 }
