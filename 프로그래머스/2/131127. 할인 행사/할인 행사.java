@@ -24,7 +24,9 @@ class Solution {
                 }
             }
             
-            answer += flag ? 1 : 0;
+            if(flag) {
+                answer++;
+            }
         }
         
         return answer;
