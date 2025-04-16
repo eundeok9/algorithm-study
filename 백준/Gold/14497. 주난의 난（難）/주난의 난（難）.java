@@ -14,68 +14,57 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        map = new int[N][M];
-        visited = new boolean[N][M];
-
         st = new StringTokenizer(br.readLine());
         x1 = Integer.parseInt(st.nextToken()) - 1;
         y1 = Integer.parseInt(st.nextToken()) - 1;
         x2 = Integer.parseInt(st.nextToken()) - 1;
         y2 = Integer.parseInt(st.nextToken()) - 1;
 
+        map = new int[N][M];
+        visited = new boolean[N][M];
         String s;
-        char val;
         for(int i=0; i<N; i++) {
             s = br.readLine();
             for(int j=0; j<M; j++) {
-                val = s.charAt(j);
-                if(val == '#' || val == '*') continue;
-
-                map[i][j] = val - '0';
+                char ch = s.charAt(j);
+                if(ch=='*' || ch=='#') continue;
+                map[i][j] = ch - '0';
             }
         }
 
         map[x2][y2] = 1;
-        System.out.println(bfs(x1, y1));
+        System.out.println(bfs());
+
     }
 
-    public static int bfs(int x, int y) {
+    public static int bfs() {
         ArrayDeque<int[]> queue = new ArrayDeque<>();
-        queue.offer(new int[] {x, y, 0});
-        visited[x][y] = true;
+        queue.offer(new int[] {x1, y1, 0});
+        visited[x1][y1] = true;
 
         while(!queue.isEmpty()) {
             int[] cur = queue.poll();
-
-            int curX = cur[0];
-            int curY = cur[1];
-            int time = cur[2];
-
-            if(curX == x2 && curY == y2) {
-                return time;
+            if(cur[0] == x2 && cur[1] == y2) {
+                return cur[2];
             }
 
             for(int d=0; d<4; d++) {
-                int nx = curX + dx[d];
-                int ny = curY + dy[d];
+                int nx = cur[0] + dx[d];
+                int ny = cur[1] + dy[d];
 
-                if(check(nx, ny) && !visited[nx][ny]) {
-                    visited[nx][ny] = true;
-                    if(map[nx][ny] == 1) {
-                        queue.offerLast(new int[] {nx, ny, time + 1});
-                    }
-                    else {
-                        queue.offerFirst(new int[] {nx, ny, time});
+                if(0 <= nx && nx < N && 0 <= ny && ny < M) {
+                    if(!visited[nx][ny]) {
+                        visited[nx][ny] = true;
+                        if(map[nx][ny] == 0) {
+                            queue.offerFirst(new int[] {nx, ny, cur[2]});
+                        } else {
+                            queue.offerLast(new int[] {nx, ny, cur[2] + 1});
+                        }
                     }
                 }
             }
-
         }
 
         return -1;
-    }
-
-    public static boolean check(int x, int y) {
-        return 0 <= x && x < N && 0 <= y && y < M;
     }
 }
