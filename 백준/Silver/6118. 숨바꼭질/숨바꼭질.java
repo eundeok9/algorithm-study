@@ -46,8 +46,7 @@ public class Main {
                 maxDist = cur[1];
                 list.clear();
                 list.add(cur[0]);
-            }
-            if(maxDist == cur[1] && !list.contains(cur[0])) {
+            } else if(maxDist == cur[1]) {
                 list.add(cur[0]);
             }
 
