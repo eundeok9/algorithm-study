@@ -63,14 +63,20 @@ public class Main {
 
             int x = cur.x;
             int y = cur.y;
+            int cost = cur.cost;
 
+            if(x == N-1 && y == N-1) return;
+            
+            if(cost > dist[x][y]) continue;
+            
             for(int d=0; d<4; d++) {
                 int nx = x + dx[d];
                 int ny = y + dy[d];
 
                 if(0 > nx || nx >= N || 0 > ny || ny >= N) continue;
-                if(dist[nx][ny] > dist[x][y] + map[nx][ny]) {
-                    dist[nx][ny] = dist[x][y] + map[nx][ny];
+                
+                if(dist[nx][ny] > cost + map[nx][ny]) {
+                    dist[nx][ny] = cost + map[nx][ny];
                     pq.add(new Node(nx, ny, dist[nx][ny]));
                 }
             }
