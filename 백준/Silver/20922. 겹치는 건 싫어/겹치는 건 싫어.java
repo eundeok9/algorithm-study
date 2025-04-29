@@ -4,35 +4,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-        
-        int[] numbers = new int[N];
+
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[n];
         st = new StringTokenizer(br.readLine());
-        for(int i=0; i<N; i++) {
-            numbers[i] = Integer.parseInt(st.nextToken());
+        for(int i=0; i<n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        
+
         int[] count = new int[100001];
         int start = 0;
         int end = 0;
-        int answer = Integer.MIN_VALUE;
-        
-        while(end < N) {
-            // 늘릴 수 있으면 end 증가
-            while(end < N && count[numbers[end]] + 1 <= K) {
-                count[numbers[end++]]++;
+        int answer = 0;
+
+        while(end < n) {
+            while(end < n && count[arr[end]] + 1 <= k) {
+                count[arr[end++]]++;
             }
-            
-            // 늘릴 수 없음
             int len = end - start;
-            answer = Math.max(answer, len);
-            
-            count[numbers[start++]]--;
+            answer = Math.max(len, answer);
+            count[arr[start++]]--;
         }
-        
+
         System.out.println(answer);
-        
     }
 }
