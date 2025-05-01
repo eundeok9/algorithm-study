@@ -5,29 +5,26 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
-        int[] arr = new int[n];
         st = new StringTokenizer(br.readLine());
-        for(int i=0; i<n; i++) {
+        int[] arr = new int[N];
+        for(int i=0; i<N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        int[] count = new int[100001];
+        int[] cnt = new int[100001];
         int start = 0;
         int end = 0;
         int answer = 0;
-
-        while(end < n) {
-            while(end < n && count[arr[end]] + 1 <= k) {
-                count[arr[end++]]++;
+        while(end < N) {
+            while(end < N && cnt[arr[end]] + 1 <= K) {
+                cnt[arr[end++]]++;
             }
-            int len = end - start;
-            answer = Math.max(len, answer);
-            count[arr[start++]]--;
+            answer = Math.max(answer, end - start);
+            cnt[arr[start++]]--;
         }
-
         System.out.println(answer);
     }
 }
