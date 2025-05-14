@@ -1,23 +1,33 @@
 import java.io.*;
 import java.util.*;
+
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
 
-        int N = Integer.parseInt(br.readLine());
-        Map<Long, Integer> map = new TreeMap<>();
-        for(int i=0; i<N; i++) {
-            long card = Long.parseLong(br.readLine());
-            map.put(card, map.getOrDefault(card, 0) + 1);
+        Map<Long, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            long num = Long.parseLong(br.readLine());
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
 
-        List<Map.Entry<Long, Integer>> list = new ArrayList<>(map.entrySet());
+        long result = 0;
+        int maxCount = 0;
 
-        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        for (Map.Entry<Long, Integer> entry : map.entrySet()) {
+            long key = entry.getKey();
+            int count = entry.getValue();
 
-        for(Map.Entry<Long, Integer> entry: list) {
-            System.out.println(entry.getKey());
-            break;
+            if (count > maxCount) {
+                maxCount = count;
+                result = key;
+            } else if (count == maxCount) {
+                result = Math.min(result, key);
+            }
         }
+
+        System.out.println(result);
     }
 }
