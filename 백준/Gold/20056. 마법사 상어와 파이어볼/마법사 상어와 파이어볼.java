@@ -45,8 +45,6 @@ public class Main {
             move();
             // 같은 칸에 2개 이상의 파이어볼 있는지 확인하기
             check();
-            // 질량 0인 파이어볼 소멸
-            removeFireBall();
         }
 
         System.out.println(calc());
@@ -101,6 +99,8 @@ public class Main {
                     int[] dir1 = {0, 2, 4, 6};
                     int[] dir2 = {1, 3, 5, 7};
 
+                    if(mSum / 5 == 0) continue; // 질량이 0인 경우는 만들지 않음
+
                     for(int i=0; i<4; i++) {
                         int newDir = -1;
                         if (size == evenCnt || size == oddCnt) newDir = dir1[i];
@@ -109,16 +109,6 @@ public class Main {
                         map[x][y].add(new FireBall(mSum / 5, sSum / size, newDir));
                     }
 
-                }
-            }
-        }
-    }
-
-    public static void removeFireBall() {
-        for(int x=0; x<N; x++) {
-            for(int y=0; y<N; y++) {
-                if(!map[x][y].isEmpty()) {
-                    map[x][y].removeIf(fireBall -> fireBall.m == 0);
                 }
             }
         }
