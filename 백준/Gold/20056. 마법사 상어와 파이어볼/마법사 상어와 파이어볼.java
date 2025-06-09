@@ -11,7 +11,6 @@ public class Main {
     }
     static int N, M, K;
     static List<FireBall>[][] map;
-    static FireBall[] order;
     static int[] dx = {-1, -1, 0, 1, 1, 1, 0, -1};
     static int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
 
@@ -96,13 +95,14 @@ public class Main {
                     }
 
                     map[x][y].clear();
+                    
                     int[] dir1 = {0, 2, 4, 6};
                     int[] dir2 = {1, 3, 5, 7};
 
                     if(mSum / 5 == 0) continue; // 질량이 0인 경우는 만들지 않음
 
                     for(int i=0; i<4; i++) {
-                        int newDir = -1;
+                        int newDir;
                         if (size == evenCnt || size == oddCnt) newDir = dir1[i];
                         else newDir = dir2[i];
 
