@@ -73,9 +73,9 @@ public class Main {
                 dist = 0;
             } else {
                 dist = calcDist(pass.sx, pass.sy, pass.ex, pass.ey);
-
                 if(dist == -1) break; // 목적지를 못 가는 경우
             }
+
             fuel -= dist;
 
             if(fuel < 0) break; // 목적지 가는 도중에 연료 부족해진 경우
@@ -109,10 +109,12 @@ public class Main {
 
         List<Passenger> passengers = new ArrayList<>(); // 태울 수 있는 승객
 
+        int minDist = -1;
         while(!queue.isEmpty()) {
             int[] cur = queue.poll();
-            if(passengers.size() > M) break;
 
+            if(minDist != -1 && cur[2] > minDist) break;
+            
             for(int d=0; d<4; d++) {
                 int nx = cur[0] + dx[d];
                 int ny = cur[1] + dy[d];
@@ -123,6 +125,7 @@ public class Main {
                 if(passengerMap[nx][ny] != null  && fuel >= cur[2]+1) {
                     Passenger curP = passengerMap[nx][ny];
                     passengers.add(new Passenger(curP.sx, curP.sy, curP.ex, curP.ey, cur[2]+1));
+                    minDist = cur[2];
                 }
             }
         }
