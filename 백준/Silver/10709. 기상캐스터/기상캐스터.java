@@ -8,47 +8,34 @@ public class Main {
         int H = Integer.parseInt(st.nextToken());
         int W = Integer.parseInt(st.nextToken());
 
-        char[][] cloud = new char[H][W];
         int[][] answer = new int[H][W];
 
         for(int i=0; i<H; i++) {
             String s = br.readLine();
-            cloud[i] = s.toCharArray();
-        }
-
-        for(int i=0; i<H; i++) {
+            int time = -1;
+            
             for(int j=0; j<W; j++) {
-                char c = cloud[i][j];
-                if(c=='c') {
-                    answer[i][j] = 0;
+                if(s.charAt(j) == 'c') {
+                    time = 0;
+                    answer[i][j] = time;
                 } else {
-                    boolean flag = false;
-                    int cnt = 1;
-                    int col = j-1;
-                    while(col >= 0) {
-                        if(cloud[i][col] == 'c') {
-                            flag = true;
-                            break;
-                        } else {
-                            cnt++;
-                            col--;
-                        }
-                    }
-
-                    if(!flag) {
+                    if(time == -1) {
                         answer[i][j] = -1;
                     } else {
-                        answer[i][j] = cnt;
+                        time++;
+                        answer[i][j] = time;
                     }
                 }
             }
         }
 
+        StringBuilder sb = new StringBuilder();
         for(int i=0; i<H; i++) {
             for(int j=0; j<W; j++) {
-                System.out.print(answer[i][j] + " ");
+                sb.append(answer[i][j]).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
         }
+        System.out.println(sb);
     }
 }
