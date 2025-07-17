@@ -5,8 +5,8 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken()); // 수열의 길이
-        int S = Integer.parseInt(st.nextToken()); // 부분합
+        int N = Integer.parseInt(st.nextToken());
+        int S = Integer.parseInt(st.nextToken());
 
         int[] arr = new int[N];
         st = new StringTokenizer(br.readLine());
@@ -14,19 +14,17 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        int left = 0, right = 0;
-        int sum = 0;
+        int start = 0, end = 0;
         int minLength = Integer.MAX_VALUE;
-
-        while(right < N) {
-            sum += arr[right];
-
+        int sum = 0;
+        while(end < N) {
+            sum += arr[end];
             while(sum >= S) {
-                minLength = Math.min(minLength, right - left + 1);
-                sum -= arr[left];
-                left++;
+                minLength = Math.min(minLength, end - start + 1);
+                sum -= arr[start];
+                start++;
             }
-            right++;
+            end++;
         }
 
         System.out.println(minLength == Integer.MAX_VALUE ? 0 : minLength);
