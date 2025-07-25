@@ -7,21 +7,20 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int[][] dp = new int[N+1][10];
 
-        for(int d=0; d<10; d++) {
-            dp[1][d] = 1;
+        for(int j=0; j<10; j++) {
+            dp[1][j] = 1;
         }
 
         for(int i=2; i<=N; i++) {
-            for(int j=0; j<10; j++) {
-                for(int k=0; k<=j; k++) {
-                    dp[i][j] = (dp[i][j] + dp[i-1][k]) % MOD;
-                }
+            dp[i][0] = dp[i-1][0];
+            for(int j=1; j<10; j++) {
+                dp[i][j] = (dp[i][j-1] + dp[i-1][j]) % MOD;
             }
         }
 
         int answer = 0;
-        for(int d=0; d<10; d++) {
-            answer = (answer + dp[N][d]) % MOD;
+        for(int j=0; j<10; j++) {
+            answer = (answer + dp[N][j]) % MOD;
         }
         System.out.println(answer);
     }
