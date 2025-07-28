@@ -1,22 +1,19 @@
 import java.io.*;
 import java.util.*;
 public class Main {
-    static int[] parent;
-    public static class Edge implements Comparable<Edge> {
-        int a, b, cost;
-
-        Edge(int a, int b, int cost) {
-            this.a = a;
-            this.b = b;
-            this.cost = cost;
+    static class Node implements Comparable<Node> {
+        int from, to, weight;
+        Node(int from, int to, int weight) {
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
         }
 
         @Override
-        public int compareTo(Edge o) {
-            return Integer.compare(this.cost, o.cost);
+        public int compareTo(Node o) {
+            return this.weight - o.weight;
         }
     }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -24,54 +21,40 @@ public class Main {
         int V = Integer.parseInt(st.nextToken());
         int E = Integer.parseInt(st.nextToken());
 
-        List<Edge> edges = new ArrayList<>();
-        for(int i=0; i<E;i ++) {
+        List<List<Node>> graph = new ArrayList<>();
+        for(int i=0; i<=V; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        for(int i=0; i<E; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            int cost = Integer.parseInt(st.nextToken());
-            edges.add(new Edge(a, b, cost));
+            int w = Integer.parseInt(st.nextToken());
+
+            graph.get(a).add(new Node(a, b, w));
+            graph.get(b).add(new Node(b, a, w));
         }
 
-        Collections.sort(edges);
+        boolean[] visited = new boolean[V+1];
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.add(new Node(0, 1, 0)); // 시작 정점 1
+        int total = 0;
 
-        parent = new int[V+1];
-        for(int i=1; i<=V; i++) {
-            parent[i] = i;
-        }
+        while(!pq.isEmpty()) {
+            Node cur = pq.poll();
 
-        int totalCost = 0;
-        int edgeCount = 0;
-        for(Edge edge: edges) {
-            if(union(edge.a, edge.b)) {
-                totalCost += edge.cost;
-                edgeCount++;
+            if(visited[cur.to]) continue;
+            visited[cur.to] = true;
+            total += cur.weight;
 
-                if(edgeCount == V-1) {
-                    break;
+            for(Node nxt: graph.get(cur.to)) {
+                if(!visited[nxt.to]) {
+                    pq.offer(nxt);
                 }
             }
         }
 
-        System.out.println(totalCost);
-    }
-
-    public static int find(int x) {
-        if(parent[x] == x) {
-            return x;
-        }
-        return parent[x] = find(parent[x]);
-    }
-
-    public static boolean union(int x, int y) {
-        int rootX = find(x);
-        int rootY = find(y);
-
-        if(rootX != rootY) {
-            parent[rootY] = rootX;
-            return true;
-        }
-        
-        return false;
+        System.out.println(total);
     }
 }
