@@ -1,34 +1,32 @@
 import java.io.*;
-import java.sql.Array;
 import java.util.*;
-
 public class Main {
     static int N;
     static int[] arr;
-    static boolean[] visited, done;
+    static boolean[] visited;
+    static boolean[] finished;
     static int count;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
         StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
-        for(int tc=0; tc<T; tc++) {
+        while(T-->0) {
             N = Integer.parseInt(br.readLine());
+
             arr = new int[N];
-            done = new boolean[N];
             visited = new boolean[N];
+            finished = new boolean[N];
+            count = 0;
 
-            st = new StringTokenizer(br.readLine());
-
+            StringTokenizer st = new StringTokenizer(br.readLine());
             for(int i=0; i<N; i++) {
-                int num = Integer.parseInt(st.nextToken());
-                arr[i] = num - 1;
+                arr[i] = Integer.parseInt(st.nextToken())-1;
             }
 
-            count = 0;
             for(int i=0; i<N; i++) {
-                if(!done[i]) {
+                if(!visited[i]) {
                     dfs(i);
                 }
             }
@@ -37,19 +35,20 @@ public class Main {
         System.out.println(sb);
     }
 
-    public static void dfs(int n) {
-        if(visited[n]) {
-            done[n] = true;
+    public static void dfs(int x) {
+        visited[x] = true;
+
+        int nxt = arr[x];
+        if(!visited[nxt]) {
+            dfs(nxt);
+        } else if(!finished[nxt]) {
             count++;
-        } else {
-            visited[n] = true;
-        }
+            while(nxt != x) {
+                count++;
+                nxt = arr[nxt];
+            }
+         }
 
-        if(!done[arr[n]]) {
-            dfs(arr[n]);
-        }
-
-        visited[n] = false;
-        done[n] = true;
+        finished[x] = true; // 노드 탐색 완료
     }
 }
