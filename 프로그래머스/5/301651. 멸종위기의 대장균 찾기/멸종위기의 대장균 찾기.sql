@@ -1,0 +1,32 @@
+-- 코드를 작성해주세요
+WITH RECURSIVE GENERATION_CTE as (
+    -- 1세대: 부모가 없는 개체
+    SELECT ID, 1 as GENERATION
+    FROM ECOLI_DATA
+    WHERE PARENT_ID IS NULL
+    
+    UNION ALL
+    
+    -- 자식 개체에 대해 재귀적으로 세대 계산
+    SELECT e.ID, gc.GENERATION + 1
+    FROM ECOLI_DATA as e
+    JOIN GENERATION_CTE as gc ON e.PARENT_ID = gc.ID
+),
+-- 자식이 없는 개체만 선택
+NO_CHILD as (
+    SELECT ID
+    FROM ECOLI_DATA
+    WHERE ID NOT IN (SELECT DISTINCT PARENT_ID FROM ECOLI_DATA WHERE PARENT_ID IS NOT NULL)
+)
+
+SELECT
+    COUNT(*) AS COUNT,
+    gc.GENERATION
+FROM
+    GENERATION_CTE as gc
+JOIN
+    NO_CHILD nc ON gc.ID = nc.ID
+GROUP BY
+    gc.GENERATION
+ORDER BY
+    gc.GENERATION;
