@@ -2,11 +2,10 @@ import java.util.*;
 class Solution {
     public int solution(String s) {
         int answer = 0;
-        char[] carr = new char[s.length() * 2];
+        char[] carr = new char[s.length()];
         
         for(int i=0; i<s.length(); i++) {
             carr[i] = s.charAt(i);
-            carr[i+s.length()] = s.charAt(i);
         }
         
        
@@ -15,7 +14,7 @@ class Solution {
             
             boolean flag = true;
             for(int j=i; j<i+s.length(); j++) {
-                char ch = carr[j];
+                char ch = carr[j % s.length()];
                 if(ch == '[' || ch == '{' || ch == '(') {
                     stack.push(ch);
                 } else if(ch == ']') {
