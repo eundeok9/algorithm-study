@@ -3,7 +3,6 @@ import java.util.*;
 public class Main {
     static int N;
     static char[][] map;
-    static int[] selected;
     static boolean isPossible = false;
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
@@ -25,62 +24,52 @@ public class Main {
             }
         }
 
-        selected = new int[3];
-        Arrays.fill(selected, -1);
         backTracking(0, 0);
 
         System.out.println(isPossible ? "YES" : "NO");
     }
 
     static void backTracking(int depth, int start) {
+        if(isPossible) return; // 이미 가능하다고 판단했으면 종료
+
         if(depth == 3) {
             // 감시 피할 수 있는지 확인
-            check();
+            if(check()) {
+                isPossible = true;
+            }
             return;
         }
 
         for(int i=start; i<N*N; i++) {
             int r = i / N; int c = i % N;
             if(map[r][c] == 'X') {
-                selected[depth] = i;
+                map[r][c] = 'O'; // 벽 설치
                 backTracking(depth + 1, i + 1);
+                map[r][c] = 'X'; // 복구
             }
         }
     }
 
-    static void check() {
-        // 현재 선택된 칸에 장애물을 설치하는 임시 맵 생성
-        char[][] tmpMap = new char[N][N];
-        for(int i=0; i<N; i++) {
-            tmpMap[i] = Arrays.copyOf(map[i], N);
-        }
-        for(int i=0; i<3; i++) {
-            int num = selected[i];
-            int r = num / N; int c = num % N;
-            tmpMap[r][c] = 'O';
-        }
+    static boolean check() {
 
         for(int[] teacher: teachers) {
             int x = teacher[0]; int y = teacher[1];
-            boolean flag = true;
+
             for(int d=0; d<4; d++) {
                 int nx = x, ny = y;
                 while(true) {
                     nx += dx[d];
                     ny += dy[d];
 
-                    if(nx < 0 || nx >= N || ny < 0 || ny >= N || tmpMap[nx][ny] == 'O') break;
+                    if(nx < 0 || nx >= N || ny < 0 || ny >= N || map[nx][ny] == 'O') break;
 
-                    if(tmpMap[nx][ny] == 'S') {
-                        flag = false;
-                        break;
+                    if(map[nx][ny] == 'S') {
+                        return false;
                     }
                 }
-
-                if(!flag) return; // 학생 만났으면 바로 중단
             }
         }
 
-        isPossible = true;
+        return true;
     }
 }
