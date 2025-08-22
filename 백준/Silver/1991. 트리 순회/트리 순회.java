@@ -3,8 +3,7 @@ import java.util.*;
 public class Main {
     static StringBuilder sb = new StringBuilder();
     static Map<Character, Node> tree = new HashMap<>();
-
-    public static class Node {
+    static class Node {
         char value;
         Node left;
         Node right;
@@ -45,21 +44,20 @@ public class Main {
         System.out.println(sb);
     }
 
-    public static void preOrder(Node node) {
+    static void preOrder(Node node) {
         if(node == null) return;
         sb.append(node.value);
         preOrder(node.left);
         preOrder(node.right);
     }
-
-    public static void inOrder(Node node) {
+    static void inOrder(Node node) {
         if(node == null) return;
         inOrder(node.left);
         sb.append(node.value);
         inOrder(node.right);
     }
 
-    public static void postOrder(Node node) {
+    static void postOrder(Node node) {
         if(node == null) return;
         postOrder(node.left);
         postOrder(node.right);
