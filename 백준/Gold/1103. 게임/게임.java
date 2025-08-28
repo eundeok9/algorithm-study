@@ -1,15 +1,14 @@
 import java.io.*;
 import java.util.*;
 public class Main {
+    static boolean isCycle = false;
     static int N, M;
     static char[][] map;
     static int[][] dp;
     static boolean[][] visited;
-    static int max = -1;
-    static boolean isCycle = false;
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
-
+    static int max = -1;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -17,10 +16,9 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        dp = new int[N][M];
         map = new char[N][M];
+        dp = new int[N][M];
         visited = new boolean[N][M];
-
         for(int i=0; i<N; i++) {
             map[i] = br.readLine().toCharArray();
         }
@@ -35,29 +33,28 @@ public class Main {
         }
     }
 
-    static void dfs(int x, int y, int cnt) {
-        if(cnt > max) {
-            max = cnt;
+    public static void dfs(int x, int y, int depth) {
+        if(depth > max) {
+            max = depth;
         }
-        dp[x][y] = cnt;
+
+        dp[x][y] = depth;
 
         for(int d=0; d<4; d++) {
-            int move = Character.getNumericValue(map[x][y]);
-
-            int nx = x + (move * dx[d]);
-            int ny = y + (move * dy[d]);
+            int nx = x + (dx[d] * (map[x][y] - '0'));
+            int ny = y + (dy[d] * (map[x][y] - '0'));
 
             if(nx < 0 || nx >= N || ny < 0 || ny >= M || map[nx][ny] == 'H') continue;
 
-            if(visited[nx][ny]) {
+            if(visited[nx][ny]){
                 isCycle = true;
                 return;
             }
 
-            if(dp[nx][ny] > cnt) continue;
+            if(dp[nx][ny] > depth) continue;
 
             visited[nx][ny] = true;
-            dfs(nx, ny, cnt + 1);
+            dfs(nx, ny, depth + 1);
             visited[nx][ny] = false;
         }
     }
