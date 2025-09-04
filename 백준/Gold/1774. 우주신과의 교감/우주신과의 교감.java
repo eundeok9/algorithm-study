@@ -31,22 +31,6 @@ public class Main {
             position[i][1] = y;
         }
 
-        List<Node> list = new ArrayList<>();
-        for(int i=1; i<=N; i++) {
-            int x1 = position[i][0];
-            int y1 = position[i][1];
-            for(int j=i+1; j<=N; j++) {
-                int x2 = position[j][0];
-                int y2 = position[j][1];
-
-                double dist = getDist(x1, x2, y1, y2);
-
-                list.add(new Node(i, j, dist));
-            }
-        }
-
-        Collections.sort(list);
-
         parent = new int[N+1];
         for(int i=0; i<=N; i++) parent[i] = i;
 
@@ -58,14 +42,31 @@ public class Main {
             union(a, b);
         }
 
-//        int index = 0;
+        List<Node> list = new ArrayList<>();
+        for(int i=1; i<=N; i++) {
+            int x1 = position[i][0];
+            int y1 = position[i][1];
+            for(int j=i+1; j<=N; j++) {
+                if(find(i) == find(j)) continue;
+
+                int x2 = position[j][0];
+                int y2 = position[j][1];
+
+                double dist = getDist(x1, x2, y1, y2);
+
+                list.add(new Node(i, j, dist));
+            }
+        }
+
+        Collections.sort(list);
+
         double answer = 0;
 
         for(int i=0; i<list.size(); i++) {
+
             Node node = list.get(i);
 
             if(union(node.from, node.to)) {
-//                index++;
                 answer += node.length;
             }
         }
