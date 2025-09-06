@@ -42,14 +42,13 @@ public class Main {
                 }
             }
 
-            dijkstra();
 
-            sb.append("Problem ").append(index++).append(": ").append(dp[N-1][N-1]).append("\n");
+            sb.append("Problem ").append(index++).append(": ").append(dijkstra()).append("\n");
         }
         System.out.println(sb);
     }
 
-    static void dijkstra() {
+    static int dijkstra() {
         PriorityQueue<Point> pq = new PriorityQueue<>();
         pq.offer(new Point(0, 0, map[0][0]));
         dp[0][0] = map[0][0];
@@ -57,8 +56,9 @@ public class Main {
         while(!pq.isEmpty()) {
             Point cur = pq.poll();
 
+            if(dp[cur.x][cur.y] < cur.rupee) continue;
             if(cur.x == N-1 && cur.y == N-1) {
-                return;
+                return dp[N-1][N-1];
             }
 
             for(int d=0; d<4; d++) {
@@ -72,5 +72,7 @@ public class Main {
                 }
             }
         }
+
+        return 0;
     }
 }
