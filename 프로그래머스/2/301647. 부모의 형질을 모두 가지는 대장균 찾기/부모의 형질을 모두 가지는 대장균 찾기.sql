@@ -1,6 +1,4 @@
--- 코드를 작성해주세요
-SELECT a.id, a.genotype, b.genotype as parent_genotype
-FROM ecoli_data a, ecoli_data b
-where a.parent_id = b.id and (a.genotype & b.genotype) = b.genotype
-order by id;
--- a가 자식 b가 부모
+SELECT a.ID, a.GENOTYPE, b.GENOTYPE as PARENT_GENOTYPE
+FROM ECOLI_DATA a, ECOLI_DATA b
+WHERE a.PARENT_ID = b.ID and (a.GENOTYPE & b.GENOTYPE) = b.GENOTYPE
+order by a.ID;
