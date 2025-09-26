@@ -1,5 +1,5 @@
--- 코드를 작성해주세요
-select count(id) as fish_count, month(time) as month
-from fish_info
-group by month
-order by month;
+SELECT COUNT(*) as FISH_COUNT, MONTH(TIME) as MONTH
+FROM FISH_INFO
+GROUP BY MONTH(TIME)
+HAVING COUNT(*) IS NOT NULL
+ORDER BY MONTH(TIME)
