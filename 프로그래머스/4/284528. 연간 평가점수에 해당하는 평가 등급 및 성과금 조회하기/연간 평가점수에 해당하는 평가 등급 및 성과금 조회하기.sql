@@ -1,21 +1,22 @@
 -- 코드를 작성해주세요
-select
+SELECT 
     E.EMP_NO,
-    E.EMP_NAME, 
+    E.EMP_NAME,
     CASE
-        WHEN avg(G.SCORE) >= 96 THEN 'S'
-        WHEN avg(G.SCORE) >= 90 THEN 'A'
-        WHEN avg(G.SCORE) >= 80 THEN 'B'
+        WHEN AVG(SCORE) >= 96 THEN 'S'
+        WHEN AVG(SCORE) >= 90 THEN 'A'
+        WHEN AVG(SCORE) >= 80 THEN 'B'
         ELSE 'C'
-    END as GRADE,
+    END AS GRADE,
+    SAL * (
     CASE
-        WHEN avg(G.SCORE) >= 96 THEN E.SAL * 0.2
-        WHEN avg(G.SCORE) >= 90 THEN E.SAL * 0.15
-        WHEN avg(G.SCORE) >= 80 THEN E.SAL * 0.1
+        WHEN AVG(SCORE) >= 96 THEN 0.2
+        WHEN AVG(SCORE) >= 90 THEN 0.15
+        WHEN AVG(SCORE) >= 80 THEN 0.1
         ELSE 0
-    END as BONUS
-from HR_EMPLOYEES as E
-join HR_DEPARTMENT as D on E.DEPT_ID = D.DEPT_ID
-join HR_GRADE as G on E.EMP_NO = G.EMP_NO
-group by E.EMP_NO
-order by E.EMP_NO
+    END) as BONUS
+FROM HR_DEPARTMENT AS D
+JOIN HR_EMPLOYEES AS E ON D.DEPT_ID = E.DEPT_ID
+JOIN HR_GRADE AS G ON E.EMP_NO = G.EMP_NO
+GROUP BY E.EMP_NO
+ORDER BY E.EMP_NO
