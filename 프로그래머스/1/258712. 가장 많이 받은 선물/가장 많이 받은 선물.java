@@ -9,37 +9,18 @@ class Solution {
             friendMap.put(friends[i], i);
         }
         
+        int[] score = new int[N]; // 선물 지수
+        
         for(int i=0; i<gifts.length; i++) {
             StringTokenizer st = new StringTokenizer(gifts[i]);
+            int from = friendMap.get(st.nextToken());
+            int to = friendMap.get(st.nextToken());
             
-            String from = st.nextToken();
-            String to = st.nextToken();
+            score[from]++;
+            score[to]--;
             
-            int r = friendMap.get(from);
-            int c = friendMap.get(to);
-            
-            map[r][c]++;
+            map[from][to]++;
         }
-        
-        int[] giveCnt = new int[N]; // 선물을 준 개수
-        int[] getCnt = new int[N]; // 선물을 받은 개수
-        
-        for(int i=0; i<N; i++) {
-            int sum = 0;
-            for(int j=0; j<N; j++) {
-                sum += map[i][j];
-            }
-            giveCnt[i] = sum;
-        }
-        
-        for(int j=0; j<N; j++) {
-            int sum = 0;
-            for(int i=0; i<N; i++) {
-                sum += map[i][j];
-            }
-            getCnt[j] = sum;
-        }
-        
         
         int[] present = new int[N];
         for(int i=0; i<N; i++) {
@@ -51,12 +32,10 @@ class Solution {
                         present[j]++;
                     }
                 } else if (map[i][j] == map[j][i]) {
-                    int scoreI = giveCnt[i] - getCnt[i];
-                    int scoreJ = giveCnt[j] - getCnt[j];
-                    if(scoreI > scoreJ) {
+                    if(score[i] > score[j]) {
                         // i의 선물지수가 더 클 때
                         present[i]++;
-                    } else if(scoreI < scoreJ) {
+                    } else if(score[i] < score[j]) {
                         present[j]++;
                     }
                 }
