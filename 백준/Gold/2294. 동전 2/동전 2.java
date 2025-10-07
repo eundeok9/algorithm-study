@@ -19,10 +19,10 @@ public class Main {
 
         dp[0] = 0;
 
-        for(int i=0; i<=K; i++) {
-            for(int coin: coins) {
-                if(i - coin >= 0 && dp[i-coin] != Integer.MAX_VALUE) {
-                    dp[i] = Math.min(dp[i], dp[i-coin] + 1);
+        for (int coin : coins) {
+            for (int i = coin; i <= K; i++) {
+                if (dp[i - coin] != Integer.MAX_VALUE) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
                 }
             }
         }
