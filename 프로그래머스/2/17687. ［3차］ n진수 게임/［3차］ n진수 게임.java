@@ -12,14 +12,11 @@ class Solution {
         
         for(int i=0; i<s.length(); i++) {
             if(i%m+1==p && answer.length() < t) {
-                if(Character.isAlphabetic(s.charAt(i))) {
-                    answer += Character.toUpperCase(s.charAt(i));
-                } else {
-                    answer += s.charAt(i);
-                }
+                answer += s.charAt(i);
             }
         }
         
+        answer = answer.toUpperCase();
         
         return answer;
     }
