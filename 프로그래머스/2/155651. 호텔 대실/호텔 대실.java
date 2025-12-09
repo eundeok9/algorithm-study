@@ -35,25 +35,19 @@ class Solution {
         
         Arrays.sort(bookArr);
         
-        List<Integer> roomList = new ArrayList<>();
-        for(Booking b: bookArr) {
+        PriorityQueue<Integer> roomPQ = new PriorityQueue<>();
+
+        for (Booking b : bookArr) {
             int startTime = b.startTimeToInt;
             int endTime = b.endTimeToInt;
-            
-            boolean flag = false;
-            for(int i=0; i<roomList.size(); i++) {
-                if(roomList.get(i) <= startTime) {
-                    roomList.set(i,endTime + 10);
-                    flag = true;
-                    break;
-                }
+
+            if (!roomPQ.isEmpty() && roomPQ.peek() <= startTime) {
+                roomPQ.poll();
             }
-            
-            if(!flag) {
-                roomList.add(endTime+10);
-            }
+
+            roomPQ.offer(endTime + 10);
         }
-        
-        return roomList.size();
+
+        return roomPQ.size();
     }
 }
