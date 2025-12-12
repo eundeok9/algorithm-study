@@ -17,11 +17,9 @@ class Solution {
                 minQueue.add(num);
             } else if(sp[0].equals("D") && !maxQueue.isEmpty()) {
                 if(num == 1) {
-                    int max = maxQueue.poll();
-                    minQueue.remove(max);
+                    minQueue.remove(maxQueue.poll());
                 } else {
-                    int min = minQueue.poll();
-                    maxQueue.remove(min);
+                    maxQueue.remove(minQueue.poll());
                 }
             }
         }
