@@ -1,4 +1,3 @@
-select distinct a.cart_id
-from cart_products as a, cart_products as b
-where a.cart_id = b.cart_id and a.id != b.id and a.name = 'Milk' and b.name = 'Yogurt'
-order by a.cart_id;
+(select cart_id from cart_products where name = 'Milk')
+intersect
+(select cart_id from cart_products where name = 'Yogurt');
