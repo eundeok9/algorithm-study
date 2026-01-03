@@ -1,18 +1,11 @@
 -- 코드를 입력하세요
-with july_total as (
-    select flavor, sum(total_order) as total
-    from july
-    group by flavor
-),
-first_half_total as (
-    select flavor, sum(total_order) as total
-    from first_half
-    group by flavor
-)
-
-select a.flavor
-from july_total as a, first_half_total as b
-where a.flavor = b.flavor
-group by a.flavor
-order by sum(a.total+ b.total) desc
+SELECT a.flavor
+from first_half as a
+join july as b on a.flavor = b.flavor
+group by flavor
+order by a.total_order+sum(b.total_order) desc
 limit 3;
+
+
+-- 7월 아이스크림 총 주문량
+-- + 상반기 아이스크림 총 주문량
