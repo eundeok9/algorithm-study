@@ -1,54 +1,51 @@
 import java.io.*;
 import java.util.*;
 public class Main {
-    static int N;
     static int[] arr;
     static boolean[] visited;
-    static boolean[] finished;
-    static int count;
-
+    static boolean[] done;
+    static int count; // 완성된 인원 수
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
         while(T-->0) {
-            N = Integer.parseInt(br.readLine());
+            count = 0;
+            int N = Integer.parseInt(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine());
 
             arr = new int[N];
             visited = new boolean[N];
-            finished = new boolean[N];
-            count = 0;
-
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            done = new boolean[N];
             for(int i=0; i<N; i++) {
-                arr[i] = Integer.parseInt(st.nextToken())-1;
+                arr[i] = Integer.parseInt(st.nextToken()) - 1; // 0-based
             }
 
             for(int i=0; i<N; i++) {
-                if(!visited[i]) {
+                if(!done[i]) { // dfs를 시행하는 조건이 있을거고.. 예를 들어 아직 팀이 결성 되지 않은 학생일 경우..
                     dfs(i);
                 }
             }
-            sb.append(N - count).append("\n");
+
+            sb.append(N-count).append("\n");
         }
         System.out.println(sb);
     }
 
-    public static void dfs(int x) {
-        visited[x] = true;
-
-        int nxt = arr[x];
-        if(!visited[nxt]) {
-            dfs(nxt);
-        } else if(!finished[nxt]) {
+    static void dfs(int node) {
+        if(visited[node]) {
+            done[node] = true;
             count++;
-            while(nxt != x) {
-                count++;
-                nxt = arr[nxt];
-            }
-         }
+        } else {
+            visited[node] = true;
+        }
 
-        finished[x] = true; // 노드 탐색 완료
+        if(!done[arr[node]]) {
+            dfs(arr[node]);
+        }
+
+        visited[node] = false;
+        done[node] = true;
     }
 }
