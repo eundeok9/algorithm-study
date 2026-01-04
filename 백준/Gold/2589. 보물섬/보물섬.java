@@ -30,7 +30,7 @@ public class Main {
 
     static int bfs(int x, int y) {
         boolean[][] visited = new boolean[N][M];
-        Queue<int[]> queue = new LinkedList<>();
+        Queue<int[]> queue = new ArrayDeque<>();
         queue.offer(new int[] {x, y, 0});
         visited[x][y] = true;
 
