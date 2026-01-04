@@ -21,8 +21,8 @@ class Solution {
             // sp[2]: 제목
             // sp[3]: 악보 정보
             String[] sp = musicInfo.split(",");
-            int startTime = Integer.parseInt(sp[0].split(":")[0]) * 60 + Integer.parseInt(sp[0].split(":")[1]);
-            int endTime = Integer.parseInt(sp[1].split(":")[0]) * 60 + Integer.parseInt(sp[1].split(":")[1]);
+            int startTime = toMin(sp[0]);
+            int endTime = toMin(sp[1]);
             int playTime = endTime - startTime;
             
             List<String> melodyList = new ArrayList<>();
@@ -74,5 +74,9 @@ class Solution {
         
         Collections.sort(answerList);
         return answerList.get(0).subject;
+    }
+    
+    static int toMin(String s) {
+        return Integer.parseInt(s.split(":")[0]) * 60 + Integer.parseInt(s.split(":")[1]);
     }
 }
