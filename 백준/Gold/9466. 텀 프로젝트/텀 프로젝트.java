@@ -34,18 +34,16 @@ public class Main {
     }
 
     static void dfs(int node) {
-        if(visited[node]) {
+        if(done[node]) return; // 이미 결성 가능 여부 판단한 학생이므로 return
+        
+        if(visited[node]) { // 방문을 했었다 == 사이클 구성원
             done[node] = true;
             count++;
-        } else {
-            visited[node] = true;
         }
-
-        if(!done[arr[node]]) {
-            dfs(arr[node]);
-        }
-
-        visited[node] = false;
-        done[node] = true;
+        
+        visited[node] = true; // 방문 체크
+        dfs(arr[node]);
+        visited[node] = false; // 방문 체크 초기화
+        done[node] = true; // 결성 가능 여부 확인했으니 done 체크
     }
 }
