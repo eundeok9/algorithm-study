@@ -1,13 +1,11 @@
 import java.io.*;
 import java.util.*;
 public class Main {
-    static int N,M;
+    static int N, M;
     static char[][] map;
-    static int[][] visited;
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
     static int answer = 0;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -16,7 +14,6 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         map = new char[N][M];
-
         for(int i=0; i<N; i++) {
             map[i] = br.readLine().toCharArray();
         }
@@ -24,37 +21,39 @@ public class Main {
         for(int i=0; i<N; i++) {
             for(int j=0; j<M; j++) {
                 if(map[i][j] == 'L') {
-                    visited = new int[N][M];
-                    bfs(i, j);
+                    answer = Math.max(answer, bfs(i, j));
                 }
             }
         }
-
-        System.out.println(answer-1);
+        System.out.println(answer);
     }
 
-    public static void bfs(int i, int j) {
+    static int bfs(int x, int y) {
+        boolean[][] visited = new boolean[N][M];
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {i, j});
-        visited[i][j] = 1;
+        queue.offer(new int[] {x, y, 0});
+        visited[x][y] = true;
+
+        int count = 0;
 
         while(!queue.isEmpty()) {
             int[] cur = queue.poll();
-            int x = cur[0];
-            int y = cur[1];
+
+            count = Math.max(count, cur[2]);
 
             for(int d=0; d<4; d++) {
-                int nx = x + dx[d];
-                int ny = y + dy[d];
+                int nx = cur[0] + dx[d];
+                int ny = cur[1] + dy[d];
 
-                if(0 <= nx && nx < N && 0 <= ny && ny < M) {
-                    if(visited[nx][ny] == 0 && map[nx][ny] == 'L') {
-                        visited[nx][ny] = visited[x][y] + 1;
-                        queue.add(new int[] {nx, ny});
-                        answer = Math.max(visited[x][y] + 1, answer);
-                    }
-                }
+                if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+                if(map[nx][ny] != 'L') continue;
+                if(visited[nx][ny]) continue;
+
+                visited[nx][ny] = true;
+                queue.offer(new int[] {nx, ny, cur[2] + 1});
             }
         }
+
+        return count;
     }
 }
