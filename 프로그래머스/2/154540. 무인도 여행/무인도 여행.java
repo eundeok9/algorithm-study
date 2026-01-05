@@ -5,7 +5,7 @@ class Solution {
     static boolean[][] visited;
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
-    static int sum = 0;
+    // static int sum = 0;
     public int[] solution(String[] maps) {
         List<Integer> answer = new ArrayList<>();
         
@@ -23,10 +23,7 @@ class Solution {
         for(int i=0; i<N; i++) {
             for(int j=0; j<M; j++) {
                 if(map[i][j] != 'X' && !visited[i][j]) {
-                    sum = 0;
-                    visited[i][j] = true;
-                    
-                    dfs(i, j);
+                    int sum = bfs(i, j);
                     
                     if(sum != 0) {
                         answer.add(sum);
@@ -42,19 +39,31 @@ class Solution {
         return answer.stream().mapToInt(Integer::intValue).toArray();
     }
     
-    static void dfs(int x, int y) {
-        sum += (map[x][y] - '0');
+    static int bfs(int x, int y) {
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[] {x, y});
+        visited[x][y] = true;
         
-        for(int d=0; d<4; d++) {
-            int nx = x + dx[d];
-            int ny = y + dy[d];
+        int sum = 0;
+        
+        while(!queue.isEmpty()) {
+            int[] cur = queue.poll();
             
-            if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
-            if(map[nx][ny] == 'X') continue;
-            if(visited[nx][ny]) continue;
+            sum += map[cur[0]][cur[1]] - '0';
             
-            visited[nx][ny] = true;
-            dfs(nx, ny);
+            for(int d=0; d<4; d++) {
+                int nx = cur[0] + dx[d];
+                int ny = cur[1] + dy[d];
+                
+                if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+                if(map[nx][ny] == 'X') continue;
+                if(visited[nx][ny]) continue;
+
+                visited[nx][ny] = true;
+                queue.add(new int[] {nx, ny});
+            }
         }
+        
+        return sum;
     }
 }
