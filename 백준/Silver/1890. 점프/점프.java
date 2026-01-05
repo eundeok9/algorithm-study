@@ -1,50 +1,36 @@
 import java.io.*;
 import java.util.*;
 public class Main {
-    static int N;
-    static int[][] map;
-    static long[][] dp;
-    static int[] dx = {1, 0};
-    static int[] dy = {0, 1};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
-        N = Integer.parseInt(br.readLine());
+        int N = Integer.parseInt(br.readLine());
 
-        map = new int[N][N];
-        dp = new long[N][N];
+        int[][] map = new int[N][N];
+        long[][] dp = new long[N][N];
+
         for(int i=0; i<N; i++) {
-            Arrays.fill(dp[i], -1);
-            st = new StringTokenizer(br.readLine());
+            StringTokenizer st = new StringTokenizer(br.readLine());
             for(int j=0; j<N; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        System.out.println(dfs(0, 0));
-    }
+        dp[0][0] = 1;
 
-    static long dfs(int x, int y) {
+        for(int i=0; i<N; i++) {
+            for(int j=0; j<N; j++) {
+                if(dp[i][j] == 0) continue; // 올 수 없는 칸
+                if(i==N-1 && j==N-1) continue; // 도착점
 
-        if(x == N-1 && y == N-1) {
-            return 1;
+                int nx = i + map[i][j];
+                int ny = j + map[i][j];
+
+                if(nx < N) dp[nx][j] += dp[i][j];
+                if(ny < N) dp[i][ny] += dp[i][j];
+            }
         }
 
-        if(dp[x][y] != -1) {
-            return dp[x][y];
-        }
-
-        dp[x][y] = 0;
-        for(int d=0; d<2; d++) {
-            int nx = x + (dx[d] * map[x][y]);
-            int ny = y + (dy[d] * map[x][y]);
-
-            if(nx < 0 || nx >= N || ny < 0 || ny >= N) continue;
-
-            dp[x][y] += dfs(nx, ny);
-        }
-
-        return dp[x][y];
+        System.out.println(dp[N-1][N-1]);
     }
 }
