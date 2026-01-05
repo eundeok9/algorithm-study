@@ -3,7 +3,6 @@ import java.util.*;
 public class Main {
     static int N, M;
     static int[][] map;
-    static boolean[][] visited;
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
     public static void main(String[] args) throws IOException {
@@ -14,7 +13,6 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
 
         map = new int[N][M];
-        visited = new boolean[N][M];
         for(int i=0; i<N; i++) {
             String s = br.readLine();
             for(int j=0; j<M; j++) {
@@ -25,10 +23,10 @@ public class Main {
         System.out.println(bfs());
     }
 
-    public static int bfs() {
+    static int bfs() {
         ArrayDeque<int[]> queue = new ArrayDeque<>();
         queue.offer(new int[] {0, 0, 0});
-        visited[0][0] = true;
+        map[0][0] = -1;
 
         while(!queue.isEmpty()) {
             int[] cur = queue.poll();
@@ -41,16 +39,15 @@ public class Main {
                 int nx = cur[0] + dx[d];
                 int ny = cur[1] + dy[d];
 
-                if(0<=nx && nx<N && 0<=ny && ny<M) {
-                    if(!visited[nx][ny]) {
-                        visited[nx][ny] = true;
-                        if(map[nx][ny] == 0) {
-                            queue.offerFirst(new int[] {nx, ny, cur[2]});
-                        } else {
-                            queue.offerLast(new int[] {nx, ny, cur[2] + 1});
-                        }
-                    }
+                if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+
+                if(map[nx][ny] == 0) {
+                    queue.addFirst(new int[] {nx, ny, cur[2]});
+                } else if(map[nx][ny] == 1) {
+                    queue.offer(new int[] {nx, ny, cur[2] + 1});
                 }
+
+                map[nx][ny] = -1; // 방문처리
             }
         }
 
