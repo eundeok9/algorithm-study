@@ -2,9 +2,10 @@ import java.io.*;
 import java.util.*;
 public class Main {
     static int N, M;
-    static int[][] map, dp;
-    static int[] dx = {0, 0, 1, -1};
-    static int[] dy = {1, -1, 0, 0};
+    static int[][] map;
+    static int[][] dp;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -14,16 +15,25 @@ public class Main {
 
         map = new int[N][M];
         dp = new int[N][M];
-
-        for(int i=0; i<N; i++) {
-            Arrays.fill(dp[i], -1);
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            for(int j=0; j<M; j++) {
+            for (int j = 0; j < M; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        System.out.println(dfs(0, 0));
+        for(int i=0; i<N; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+
+//        for(int i=0; i<N; i++) {
+//            for(int j=0; j<M; j++) {
+//                System.out.print(dp[i][j]+ " ");
+//            }
+//            System.out.println();
+//        }
+
+        System.out.println(dfs(0,0));
     }
 
     static int dfs(int x, int y) {
@@ -36,16 +46,15 @@ public class Main {
         }
 
         dp[x][y] = 0;
-        for(int i=0; i<4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
+
+        for(int d=0; d<4; d++) {
+            int nx = x + dx[d];
+            int ny = y + dy[d];
 
             if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+            if(map[nx][ny] >= map[x][y]) continue;
 
-
-            if(map[x][y] > map[nx][ny]) {
-                dp[x][y] += dfs(nx, ny);
-            }
+            dp[x][y] += dfs(nx,ny);
         }
 
         return dp[x][y];
