@@ -8,11 +8,6 @@ public class Main {
         int K = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
 
-        if(K==1) {
-            System.out.println(Integer.parseInt(br.readLine()) / N);
-            return;
-        }
-
         int[] arr = new int[K];
         long left = 1;
         long right = 0;
