@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -8,34 +7,37 @@ public class Main {
 
         int N = Integer.parseInt(st.nextToken());
         int C = Integer.parseInt(st.nextToken());
+
         int[] arr = new int[N];
         for(int i=0; i<N; i++) {
             arr[i] = Integer.parseInt(br.readLine());
         }
 
         Arrays.sort(arr);
-        int min = 1;
-        int max = arr[arr.length - 1] - arr[0];
+
+        int left = 1; // 설치할 수 있는 최소 거리
+        int right = arr[N-1] - arr[0]; // 설치할 수 있는 최대 거리
+
         int answer = 0;
+        while(left <= right) {
+            int mid = (left + right) / 2;
 
-        while(min <= max) {
-            int mid = (min + max) / 2;
+            // mid 거리로 C개 설치 가능한지
+            int count = 1;
+            int last = arr[0]; // 마지막 설치 위치
 
-            int count = 1; // 설치 개수
-            int num = arr[0]; // 첫번째 집 위치
             for(int i=1; i<N; i++) {
-                if(count == C) break;
-                if(arr[i] - num >= mid) {
+                if(arr[i] - last >= mid) {
                     count++;
-                    num = arr[i];
+                    last = arr[i];
                 }
             }
-            // 설치 가능
-            if(count == C) {
+
+            if(count >= C) {
                 answer = mid;
-                min = mid + 1;
+                left = mid + 1;
             } else {
-                max = mid - 1;
+                right = mid - 1;
             }
         }
 
