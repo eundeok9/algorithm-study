@@ -51,12 +51,12 @@ class Solution {
                         break;
                 }
                 
-                if(j == minerals.length) {
-                    isFinished = true;
-                    break;
-                }
+                // if(j == minerals.length - 1) {
+                //     isFinished = true;
+                //     break;
+                // }
             }
-            if(isFinished) break;
+            // if(isFinished) break;
         }
         
         return fatigue;
