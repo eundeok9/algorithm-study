@@ -1,4 +1,3 @@
-import java.util.*;
 class Solution {
     static int[][] map;
     public int[] solution(int rows, int columns, int[][] queries) {
@@ -33,7 +32,6 @@ class Solution {
             
             rotate(query[0], query[1], query[2], query[3], rows, columns);
         }
-        
         
         return answer;
     }
