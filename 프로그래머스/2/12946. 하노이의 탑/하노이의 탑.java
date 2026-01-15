@@ -12,16 +12,14 @@ class Solution {
     
     static void hanoi(int n, int start, int destination, int via) {
         if(n<=1) {
-            answer[index][0] = start;
-            answer[index++][1] = destination;
+            answer[index++] = new int[] {start, destination};
             
             return;
         }
         
         hanoi(n-1, start, via, destination);
         
-        answer[index][0] = start;
-        answer[index++][1] = destination;
+        answer[index++] = new int[] {start, destination};
         
         hanoi(n-1, via, destination, start);
         
