@@ -2,11 +2,8 @@ import java.io.*;
 import java.util.*;
 public class Main {
     static int N, M;
-    static int x1, y1, x2, y2;
     static int[][] map;
-    static boolean[][] visited;
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
+    static int[][] dist;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -15,56 +12,64 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
-        x1 = Integer.parseInt(st.nextToken()) - 1;
-        y1 = Integer.parseInt(st.nextToken()) - 1;
-        x2 = Integer.parseInt(st.nextToken()) - 1;
-        y2 = Integer.parseInt(st.nextToken()) - 1;
+        int x1 = Integer.parseInt(st.nextToken())-1;
+        int y1 = Integer.parseInt(st.nextToken())-1;
+        int x2 = Integer.parseInt(st.nextToken())-1;
+        int y2 = Integer.parseInt(st.nextToken())-1;
 
         map = new int[N][M];
-        visited = new boolean[N][M];
-        String s;
         for(int i=0; i<N; i++) {
-            s = br.readLine();
+            String s = br.readLine();
             for(int j=0; j<M; j++) {
-                char ch = s.charAt(j);
-                if(ch=='*' || ch=='#') continue;
-                map[i][j] = ch - '0';
+                if(s.charAt(j) == '*') {
+                    map[i][j] = 0;
+                } else if(s.charAt(j) == '#') {
+                    map[i][j] = 1;
+                }else {
+                    map[i][j] = s.charAt(j) - '0';
+                }
             }
         }
 
-        map[x2][y2] = 1;
-        System.out.println(bfs());
-
+        dijkstra(x1, x2, y1, y2);
     }
 
-    public static int bfs() {
+    static void dijkstra(int x1, int x2, int y1, int y2) {
         ArrayDeque<int[]> queue = new ArrayDeque<>();
-        queue.offer(new int[] {x1, y1, 0});
-        visited[x1][y1] = true;
+        queue.offer(new int[] {x1, y1});
 
+        dist = new int[N][M];
+        for(int i=0; i<N; i++) {
+            Arrays.fill(dist[i], Integer.MAX_VALUE);
+        }
+        dist[x1][y1] = 0;
+
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
         while(!queue.isEmpty()) {
             int[] cur = queue.poll();
+
             if(cur[0] == x2 && cur[1] == y2) {
-                return cur[2];
+                System.out.println(dist[x2][y2]);
+                return;
             }
 
             for(int d=0; d<4; d++) {
                 int nx = cur[0] + dx[d];
                 int ny = cur[1] + dy[d];
 
-                if(0 <= nx && nx < N && 0 <= ny && ny < M) {
-                    if(!visited[nx][ny]) {
-                        visited[nx][ny] = true;
-                        if(map[nx][ny] == 0) {
-                            queue.offerFirst(new int[] {nx, ny, cur[2]});
-                        } else {
-                            queue.offerLast(new int[] {nx, ny, cur[2] + 1});
-                        }
+                if (nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+
+                if(dist[cur[0]][cur[1]] + map[nx][ny] < dist[nx][ny]) {
+                    dist[nx][ny] = dist[cur[0]][cur[1]] + map[nx][ny];
+
+                    if(map[nx][ny] == 0) {
+                        queue.addFirst(new int[] {nx, ny});
+                    } else {
+                        queue.addLast(new int[] {nx, ny});
                     }
                 }
             }
         }
-
-        return -1;
     }
 }
